@@ -1,0 +1,11 @@
+# Studio51 · ruby-gem
+# Omakase Ruby styling + Performance cops — the only accepted RuboCop config
+# across Studio51 Ruby repos. Add `rubocop-rails-omakase` and `rubocop-performance`
+# to the gemspec/Gemfile's development dependencies.
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+require:
+  - rubocop-performance
+
+# House overrides go below — keep them minimal.

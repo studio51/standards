@@ -18,10 +18,34 @@ function anyFileMatches(dir, ext) {
 
 export function detectStack(dir) {
   // Order matters: most specific first.
-  if (has(dir, 'config/importmap.rb') || has(dir, join('app', 'javascript', 'controllers')))
-    return 'rails-hotwire';
-  if (has(dir, 'Gemfile') || has(dir, 'config/application.rb') || anyFileMatches(dir, '.gemspec'))
+
+  // Rails apps — config/application.rb is definitional. Hotwire if Stimulus
+  // controllers, Vite, or importmap are present (JS tooling is the maintainer's
+  // choice, so any of the three counts).
+  if (has(dir, 'config/application.rb')) {
+    if (
+      has(dir, join('app', 'javascript', 'controllers')) ||
+      has(dir, 'config/vite.json') ||
+      has(dir, 'config/importmap.rb')
+    )
+      return 'rails-hotwire';
     return 'rails';
+  }
+
+  // Ruby gem / library — a gemspec, or a bundler/Rake project that isn't a Rails app.
+  if (anyFileMatches(dir, '.gemspec') || has(dir, 'Gemfile') || has(dir, 'Rakefile'))
+    return 'ruby-gem';
+
+  // Python — project metadata, or any .py at the root.
+  if (
+    has(dir, 'pyproject.toml') ||
+    has(dir, 'requirements.txt') ||
+    has(dir, 'setup.py') ||
+    has(dir, 'Pipfile') ||
+    anyFileMatches(dir, '.py')
+  )
+    return 'python';
+
   if (has(dir, 'package.json')) {
     try {
       const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'));

@@ -1,0 +1,11 @@
+## Stack: Python
+
+- Use a virtual environment: `python3 -m venv .venv && source .venv/bin/activate`.
+  The interpreter is pinned in `.python-version`.
+- Install: `pip install -r requirements.txt`, or `pip install -e .` when there's a
+  `pyproject.toml`.
+- Lint & format with **Ruff**: `ruff check .` (`--fix` to auto-correct) and
+  `ruff format .`.
+- Tests: `pytest`.
+- Keep modules importable and side-effect free; put entry points behind
+  `if __name__ == "__main__":`.

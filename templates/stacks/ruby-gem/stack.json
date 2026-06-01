@@ -1,0 +1,5 @@
+{
+  "label": "Ruby gem / library",
+  "detect": ["*.gemspec", "lib", "Rakefile"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

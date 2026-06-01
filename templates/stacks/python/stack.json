@@ -1,0 +1,5 @@
+{
+  "label": "Python",
+  "detect": ["pyproject.toml", "requirements.txt", "setup.py", "*.py"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

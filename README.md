@@ -43,7 +43,7 @@ standards/
 ├── templates/
 │   ├── common/             # stack-agnostic files (always applied)
 │   ├── licenses/           # MIT · Apache-2.0 · Proprietary
-│   └── stacks/             # js-vanilla · js-react · rails · rails-hotwire · docker
+│   └── stacks/             # js-vanilla · js-react · rails · rails-hotwire · ruby-gem · python · docker
 └── cli/                    # the Node scaffolder (npx @studio51/create)
 ```
 
