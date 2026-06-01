@@ -5,7 +5,7 @@
 
 Stop reinventing the README. This repo holds the canonical `README`, `LICENSE`,
 `COPYRIGHT`, `AGENTS.md`, GitHub meta files, and per-stack configs that every
-Studio51 project should share — plus a zero-install CLI that scaffolds them into
+Studio51 project should share, plus a zero-install CLI that scaffolds them into
 a new (or existing) repo in one command.
 
 ## At a glance
@@ -14,8 +14,8 @@ a new (or existing) repo in one command.
 |---|---|
 | **Type**    | Tooling / templates |
 | **Stack**   | Node CLI + template files |
-| **License** | Proprietary — © 2026 Studio51 Solutions |
-| **Status**  | Active — bootstrapping |
+| **License** | Proprietary, © 2026 Studio51 Solutions |
+| **Status**  | Active (bootstrapping) |
 
 ## Quick start
 
@@ -56,15 +56,15 @@ your answers + `studio51.config.json`. See [TOKENS.md](TOKENS.md).
 Every Studio51 repo ends up with the same skeleton, so any of us (and any AI
 agent) can open any repo and know exactly where things live:
 
-- **README.md** — same section order everywhere, opening with an *At a glance* table.
-- **LICENSE** + **COPYRIGHT** — chosen per repo (MIT / Apache-2.0 / Proprietary).
-- **AGENTS.md** — identical conventions block + a stack-specific section.
-- **.github/** — issue/PR templates, CODEOWNERS, dependabot, CI (lighter for private repos).
-- **Hygiene** — `.editorconfig`, `.gitattributes`, `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md`.
+- **README.md**: same section order everywhere, opening with an *At a glance* table.
+- **LICENSE** + **COPYRIGHT**: chosen per repo (MIT / Apache-2.0 / Proprietary).
+- **AGENTS.md**: identical conventions block + a stack-specific section.
+- **.github/**: issue/PR templates, CODEOWNERS, dependabot, CI (lighter for private repos).
+- **Hygiene**: `.editorconfig`, `.gitattributes`, `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md`.
 
 ## License
 
-Proprietary — © 2026 Studio51 Solutions. Internal tooling for Studio51 projects.
+Proprietary, © 2026 Studio51 Solutions. Internal tooling for Studio51 projects.
 
 ## About
 

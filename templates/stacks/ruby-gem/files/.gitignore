@@ -9,7 +9,7 @@
 /coverage/
 /doc/
 /.yardoc/
-# Libraries don't commit the lockfile — consumers resolve their own.
+# Libraries don't commit the lockfile; consumers resolve their own.
 Gemfile.lock
 .env
 .env.*

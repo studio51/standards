@@ -8,10 +8,10 @@ them for real values. Tokens use double curly braces and `SCREAMING_SNAKE_CASE`.
 
 A token's value is resolved from the first source that provides it:
 
-1. **CLI prompt / flag** — answers given at scaffold time (`--name`, `--license`, …)
-2. **Auto-detection** — inferred from the target repo (gemspec → `rails`, `package.json` → `js-*`, repo privacy → license default)
-3. **`studio51.config.json`** — org-wide defaults
-4. **Computed** — derived values (e.g. `YEAR`, `YEAR_RANGE`)
+1. **CLI prompt / flag**: answers given at scaffold time (`--name`, `--license`, …)
+2. **Auto-detection**: inferred from the target repo (gemspec → `rails`, `package.json` → `js-*`, repo privacy → license default)
+3. **`studio51.config.json`**: org-wide defaults
+4. **Computed**: derived values (e.g. `YEAR`, `YEAR_RANGE`)
 
 ## Token reference
 

@@ -11,7 +11,7 @@ import { join, dirname, relative } from 'node:path';
 import { render } from './render.js';
 import { resolveStacks } from './tokens.js';
 
-// Files that `update` may regenerate in place — they hold no project-specific
+// Files that `update` may regenerate in place; they hold no project-specific
 // prose, so refreshing them just re-syncs the standard.
 const MANAGED_META = [
   'LICENSE',
@@ -61,7 +61,7 @@ function buildPlan({ templatesDir, stacks }) {
   return plan;
 }
 
-// Union of lines across overlays — keeps every comment/header, dedupes patterns.
+// Union of lines across overlays: keeps every comment/header, dedupes patterns.
 function mergeLines(contents) {
   const out = [];
   const seen = new Set();

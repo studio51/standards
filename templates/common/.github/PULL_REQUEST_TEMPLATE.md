@@ -6,8 +6,8 @@
 
 ## Type of change
 
-- [ ] feat — new feature
-- [ ] fix — bug fix
+- [ ] feat (new feature)
+- [ ] fix (bug fix)
 - [ ] docs
 - [ ] refactor / chore
 - [ ] breaking change

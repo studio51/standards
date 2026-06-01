@@ -1,4 +1,4 @@
-# Studio51 · Docker — multi-stage starter. Adjust the base image to your stack.
+# Studio51 · Docker, multi-stage starter. Adjust the base image to your stack.
 # Node example shown; for Rails swap to `ruby:3.3-slim` and bundle install.
 
 # --- build stage ---

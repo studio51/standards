@@ -2,5 +2,5 @@
 
 - Build: `docker build -t {{PROJECT_NAME}} .` · Run stack: `docker compose up`.
 - Keep images small: multi-stage builds, pin base image tags, `.dockerignore` tight.
-- Never bake secrets into images — pass them via env / compose `env_file`.
+- Never bake secrets into images; pass them via env / compose `env_file`.
 - One service per container; app config comes from the environment.

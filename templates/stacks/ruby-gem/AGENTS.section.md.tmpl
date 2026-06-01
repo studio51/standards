@@ -6,7 +6,7 @@
 - Lint: `bundle exec rubocop` (`-A` to auto-correct).
 - **Public API lives in `lib/`.** Keep a thin top-level entrypoint
   (`lib/<gem>.rb`) that requires the rest; everything else under `lib/<gem>/`.
-- **`Gemfile.lock` is not committed** for a library — let consumers resolve their
+- **`Gemfile.lock` is not committed** for a library; let consumers resolve their
   own versions. (It's only committed for applications.)
 - **Releasing:** bump `version.rb`, add a dated `CHANGELOG.md` entry, then
   `bundle exec rake release`. Never hand-edit built `.gem` artifacts.

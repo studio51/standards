@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// @studio51/create — scaffold Studio51 standard files into a repo.
+// @studio51/create: scaffold Studio51 standard files into a repo.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +20,7 @@ const REPO_ROOT = resolve(HERE, '..', '..');
 const TEMPLATES_DIR = join(REPO_ROOT, 'templates');
 const CONFIG_PATH = join(REPO_ROOT, 'studio51.config.json');
 
-const HELP = `studio51-create — scaffold Studio51 standard files
+const HELP = `studio51-create: scaffold Studio51 standard files
 
 Usage:
   npx @studio51/create [options]            scaffold into the current directory
@@ -135,7 +135,7 @@ async function main() {
 
   const tag = f['dry-run'] ? '(dry-run) would write' : 'wrote';
   for (const dest of result.written) console.log(`  ✓ ${tag} ${dest}`);
-  for (const [dest, why] of result.skipped) console.log(`  · skip ${dest} — ${why}`);
+  for (const [dest, why] of result.skipped) console.log(`  · skip ${dest}: ${why}`);
   console.log(
     `\n${result.written.length} file(s) ${f['dry-run'] ? 'planned' : 'written'}, ${result.skipped.length} skipped.`
   );

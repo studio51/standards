@@ -1,4 +1,4 @@
-// Studio51 · js-react — ESLint flat config
+// Studio51 · js-react: ESLint flat config
 import js from '@eslint/js';
 import globals from 'globals';
 import reactHooks from 'eslint-plugin-react-hooks';

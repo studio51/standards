@@ -1,5 +1,5 @@
 // Best-effort detection of stack / visibility / existing copyright year from the
-// target directory. All detection is advisory — the user confirms before writing.
+// target directory. All detection is advisory; the user confirms before writing.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
@@ -19,7 +19,7 @@ function anyFileMatches(dir, ext) {
 export function detectStack(dir) {
   // Order matters: most specific first.
 
-  // Rails apps — config/application.rb is definitional. Hotwire if Stimulus
+  // Rails apps: config/application.rb is definitional. Hotwire if Stimulus
   // controllers, Vite, or importmap are present (JS tooling is the maintainer's
   // choice, so any of the three counts).
   if (has(dir, 'config/application.rb')) {
@@ -32,11 +32,11 @@ export function detectStack(dir) {
     return 'rails';
   }
 
-  // Ruby gem / library — a gemspec, or a bundler/Rake project that isn't a Rails app.
+  // Ruby gem / library: a gemspec, or a bundler/Rake project that isn't a Rails app.
   if (anyFileMatches(dir, '.gemspec') || has(dir, 'Gemfile') || has(dir, 'Rakefile'))
     return 'ruby-gem';
 
-  // Python — project metadata, or any .py at the root.
+  // Python: project metadata, or any .py at the root.
   if (
     has(dir, 'pyproject.toml') ||
     has(dir, 'requirements.txt') ||

@@ -7,19 +7,19 @@ Builds on the Ruby/Rails conventions above.
 - **Stimulus for behavior.** Controllers live in `app/javascript/controllers`,
   named `*_controller.js`. Keep them small and reusable; use `data-*` actions and
   targets rather than querying the DOM by hand.
-- **No SPA.** Avoid client-side routers and heavy frontend frameworks — server-
+- **No SPA.** Avoid client-side routers and heavy frontend frameworks; server-
   rendered views with Turbo are the standard here.
 
-### JavaScript & assets — maintainer's choice
+### JavaScript & assets: maintainer's choice
 
 How JS and CSS are bundled is the project maintainer's call. Three setups are
 supported; **Vite (`vite_rails`) is the preferred default** for anything
 non-trivial. Check the repo's `Gemfile` / `package.json` to see which is in use
 before adding dependencies:
 
-- **Vite (preferred)** — `vite_rails`, entrypoints under `app/frontend`, config in
+- **Vite (preferred)**: `vite_rails`, entrypoints under `app/frontend`, config in
   `config/vite.json`. Add deps with `yarn add` / `npm i`.
-- **jsbundling-rails + cssbundling-rails** — esbuild/rollup + Tailwind/Sass driven by
+- **jsbundling-rails + cssbundling-rails**: esbuild/rollup + Tailwind/Sass driven by
   `package.json` build scripts, output to `app/assets/builds`.
-- **importmap-rails** — no build step; pin deps in `config/importmap.rb`. Best for
+- **importmap-rails**: no build step; pin deps in `config/importmap.rb`. Best for
   small apps with few JS dependencies.

@@ -32,7 +32,7 @@ export function stackLabel(stacksDir, stacks) {
     const p = join(stacksDir, name, 'stack.json');
     return existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : {};
   };
-  // A base stack that a present stack extends is redundant in the label — show
+  // A base stack that a present stack extends is redundant in the label, so show
   // only the most specific (leaf) label, e.g. rails-hotwire, not "rails + rails-hotwire".
   const extendedBases = new Set(stacks.map((s) => meta(s).extends).filter(Boolean));
   return stacks
