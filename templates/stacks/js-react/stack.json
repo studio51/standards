@@ -1,0 +1,5 @@
+{
+  "label": "JavaScript · React",
+  "detect": ["package.json", "*.jsx", "*.tsx"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

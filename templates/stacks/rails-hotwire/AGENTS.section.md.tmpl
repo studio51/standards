@@ -1,0 +1,13 @@
+## Stack: Hotwire (Turbo + Stimulus)
+
+Builds on the Ruby/Rails conventions above.
+
+- **Default to HTML over the wire.** Reach for Turbo Frames and Turbo Streams
+  before writing custom JavaScript or a JSON API.
+- **Stimulus for behavior.** Controllers live in `app/javascript/controllers`,
+  named `*_controller.js`. Keep them small and reusable; use `data-*` actions and
+  targets rather than querying the DOM by hand.
+- **No SPA.** Avoid client-side routers and heavy frontend frameworks — server-
+  rendered views with Turbo are the standard here.
+- JS dependencies are managed via importmap (`config/importmap.rb`) unless the repo
+  README states otherwise.

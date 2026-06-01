@@ -1,0 +1,6 @@
+{
+  "label": "Docker",
+  "addon": true,
+  "detect": ["Dockerfile", "compose.yaml", "docker-compose.yml"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

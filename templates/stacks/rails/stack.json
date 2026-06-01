@@ -1,0 +1,5 @@
+{
+  "label": "Ruby · Rails",
+  "detect": ["*.gemspec", "Gemfile", "config/application.rb"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

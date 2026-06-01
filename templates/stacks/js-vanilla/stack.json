@@ -1,0 +1,5 @@
+{
+  "label": "Vanilla JS · HTML · CSS",
+  "detect": ["index.html", "*.js"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

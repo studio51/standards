@@ -1,0 +1,24 @@
+# Studio51 · rails
+.DS_Store
+*.log
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+/storage/*
+!/storage/.keep
+/public/assets
+/node_modules
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/public/packs
+/coverage
+.env
+.env.*
+!.env.example
+# gem build artifacts
+/pkg/
+*.gem
+.yardoc/

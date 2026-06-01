@@ -1,0 +1,14 @@
+# Studio51 · js-react
+.DS_Store
+*.log
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+.cache/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
