@@ -1,0 +1,26 @@
+{{#if LICENSE == Proprietary}}
+Copyright (c) {{YEAR_RANGE}} {{LEGAL_NAME}}. All Rights Reserved.
+
+Author:  {{AUTHOR}} <{{EMAIL}}>
+Project: {{PROJECT_TITLE}}
+
+This software and its source code are the confidential and proprietary property
+of {{LEGAL_NAME}}. Unauthorized copying, distribution, modification, or use, in
+whole or in part, by any means, is strictly prohibited without the prior written
+permission of {{LEGAL_NAME}}.
+{{/if}}
+{{#if LICENSE == MIT}}
+Copyright (c) {{YEAR_RANGE}} {{AUTHOR}}, {{LEGAL_NAME}}
+
+Project: {{PROJECT_TITLE}}
+
+Licensed under the MIT License. See the LICENSE file for the full text.
+{{/if}}
+{{#if LICENSE == Apache-2.0}}
+Copyright (c) {{YEAR_RANGE}} {{LEGAL_NAME}}
+
+Project: {{PROJECT_TITLE}}
+
+Licensed under the Apache License, Version 2.0. See the LICENSE file for the full
+text and the NOTICE file for attribution notices.
+{{/if}}

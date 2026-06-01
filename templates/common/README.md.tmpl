@@ -1,0 +1,73 @@
+# {{PROJECT_TITLE}}
+
+> {{TAGLINE}}
+
+{{#if VISIBILITY == public}}
+[![License: {{LICENSE}}](https://img.shields.io/badge/license-{{LICENSE}}-blue)](LICENSE)
+[![CI](https://github.com/{{ORG}}/{{PROJECT_NAME}}/actions/workflows/ci.yml/badge.svg)]({{REPO_URL}}/actions/workflows/ci.yml)
+{{/if}}
+
+{{DESCRIPTION}}
+
+## At a glance
+
+| | |
+|---|---|
+| **Type**    | {{TYPE}} |
+| **Stack**   | {{STACK_LABEL}} |
+| **License** | {{LICENSE}} |
+| **Status**  | Active |
+
+## Quick start
+
+```bash
+git clone {{REPO_URL}}.git && cd {{PROJECT_NAME}}
+# TODO: shortest path from clone to running
+```
+
+## Installation
+
+<!-- libraries/plugins: how others add this to their project. Apps: delete this
+     section. Keep the heading order; remove sections that don't apply. -->
+
+## Usage
+
+<!-- TODO -->
+
+<!-- ## Configuration
+     Move detailed config to CONFIGURATION.md and link it here. -->
+
+## Development
+
+```bash
+# TODO: install deps, run, test, lint
+```
+
+<!-- ## Project structure
+     A short tree of the important directories. -->
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). This project follows the Studio51
+[Code of Conduct](CODE_OF_CONDUCT.md).
+
+## Security
+
+Found a vulnerability? See [SECURITY.md](SECURITY.md) — please don't open a
+public issue for security reports.
+
+## License
+
+{{#if LICENSE == Proprietary}}
+Proprietary — © {{YEAR_RANGE}} {{LEGAL_NAME}}. All rights reserved. See [LICENSE](LICENSE) and [COPYRIGHT](COPYRIGHT).
+{{/if}}
+{{#if LICENSE == MIT}}
+[MIT](LICENSE) — © {{YEAR_RANGE}} {{AUTHOR}}, {{LEGAL_NAME}}.
+{{/if}}
+{{#if LICENSE == Apache-2.0}}
+[Apache-2.0](LICENSE) — © {{YEAR_RANGE}} {{LEGAL_NAME}}. See [NOTICE](NOTICE).
+{{/if}}
+
+## About
+
+Built and maintained by [{{LEGAL_NAME}}]({{ORG_URL}}).
