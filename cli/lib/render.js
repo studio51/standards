@@ -27,5 +27,7 @@ export function replaceTokens(text, tokens) {
 }
 
 export function render(text, tokens) {
-  return replaceTokens(evalConditionals(text, tokens), tokens);
+  const out = replaceTokens(evalConditionals(text, tokens), tokens);
+  // Collapse the blank-line gaps that dropped conditional blocks leave behind.
+  return out.replace(/\n{3,}/g, '\n\n');
 }
