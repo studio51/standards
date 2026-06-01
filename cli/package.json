@@ -1,0 +1,22 @@
+{
+  "name": "@studio51/create",
+  "version": "0.1.0",
+  "description": "Scaffold Studio51 standard files (README, LICENSE, COPYRIGHT, AGENTS, .github, stack configs) into a new or existing repo.",
+  "type": "module",
+  "bin": {
+    "studio51-create": "bin/create.js",
+    "create-studio51": "bin/create.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "../templates/",
+    "../studio51.config.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": false,
+  "author": "Vlad Radulescu (Studio51 Solutions)"
+}
