@@ -1,6 +1,6 @@
 {
   "label": "Ruby · Rails · Hotwire (Turbo + Stimulus)",
   "extends": "rails",
-  "detect": ["app/javascript/controllers", "config/importmap.rb"],
+  "detect": ["app/javascript/controllers", "config/vite.json", "config/importmap.rb"],
   "agentsSection": "AGENTS.section.md.tmpl"
 }
