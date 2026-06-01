@@ -1,4 +1,4 @@
-# AGENTS.md: Studio51 Standards
+# AGENTS.md: Studio51 Solutions Standards
 
 Instructions for AI coding agents (Claude Code and friends) working in **this**
 repo, the one that defines the standards. Generated repos get their own
@@ -7,7 +7,8 @@ repo, the one that defines the standards. Generated repos get their own
 ## What this repo is
 
 The canonical templates + CLI that scaffold standard files into every other
-Studio51 repo. Changing a file here changes the standard for all future repos.
+Studio51 Solutions repo. Changing a file here changes the standard for all 
+future repos.
 
 ## Golden rules
 

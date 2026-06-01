@@ -12,7 +12,7 @@
   "defaults": {
     "license": "Proprietary",
     "visibility": "private",
-    "stack": "js-vanilla"
+    "stack": "rails"
   },
   "licenses": ["MIT", "Apache-2.0", "Proprietary"],
   "stacks": ["js-vanilla", "js-react", "rails", "rails-hotwire", "ruby-gem", "python", "docker"],

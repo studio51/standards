@@ -1,7 +1,7 @@
-# Studio51 Standards
+# Studio51 Solutions Standards
 
-> The single source of truth for how every Studio51 repository is structured,
-> licensed, and documented.
+> The single source of truth for how every Studio51 Solutions repository is
+> structured, licensed, and documented.
 
 Stop reinventing the README. This repo holds the canonical `README`, `LICENSE`,
 `COPYRIGHT`, `AGENTS.md`, GitHub meta files, and per-stack configs that every
@@ -23,7 +23,8 @@ Scaffold the standard files into a repo:
 
 ```bash
 cd my-new-project
-npx @studio51/create          # interactive
+npx @studio51/create # interactive
+
 # or, non-interactive:
 npx @studio51/create --name orbit --type plugin --stack js-vanilla --license Proprietary
 ```

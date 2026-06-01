@@ -35,10 +35,10 @@ A token's value is resolved from the first source that provides it:
 | `{{WEBSITE}}` | config | `https://studio51.solutions` |
 | `{{SECURITY_CONTACT}}` | config | `security@studio51.solutions` |
 | `{{YEAR}}` | computed | `2026` |
-| `{{YEAR_RANGE}}` | computed / existing | `2023–2026` |
+| `{{YEAR_RANGE}}` | computed / existing | `2014 – 2026` |
 
 `{{YEAR_RANGE}}` preserves an existing repo's original copyright year when
-re-syncing (e.g. fluent-icons keeps `2023–2026`); for a brand-new repo it is
+re-syncing (e.g. fluent-icons keeps `2023 – 2026`); for a brand-new repo it is
 just `{{YEAR}}`.
 
 ## Conditionals
