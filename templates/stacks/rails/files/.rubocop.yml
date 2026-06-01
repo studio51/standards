@@ -1,26 +1,11 @@
 # Studio51 · rails
+# Omakase Ruby styling + Performance cops — the only accepted RuboCop config
+# across Studio51 Ruby repos. Add `rubocop-rails-omakase` and `rubocop-performance`
+# to the Gemfile's :development group.
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
 require:
-  - rubocop-rails
   - rubocop-performance
 
-AllCops:
-  NewCops: enable
-  TargetRubyVersion: 3.3
-  Exclude:
-    - "db/schema.rb"
-    - "db/migrate/*"
-    - "vendor/**/*"
-    - "bin/**/*"
-    - "node_modules/**/*"
-
-Style/Documentation:
-  Enabled: false
-
-Style/FrozenStringLiteralComment:
-  Enabled: true
-
-Metrics/MethodLength:
-  Max: 20
-
-Layout/LineLength:
-  Max: 120
+# House overrides go below — keep them minimal.
