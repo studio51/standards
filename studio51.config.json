@@ -1,0 +1,20 @@
+{
+  "$schema": "./schema/studio51.config.schema.json",
+  "org": {
+    "handle": "studio51",
+    "url": "https://github.com/studio51",
+    "legalName": "Studio51 Solutions",
+    "author": "Vlad Radulescu",
+    "email": "vlad@studio51.solutions",
+    "website": "https://studio51.solutions",
+    "securityContact": "security@studio51.solutions"
+  },
+  "defaults": {
+    "license": "Proprietary",
+    "visibility": "private",
+    "stack": "js-vanilla"
+  },
+  "licenses": ["MIT", "Apache-2.0", "Proprietary"],
+  "stacks": ["js-vanilla", "js-react", "rails", "rails-hotwire", "docker"],
+  "types": ["library", "app", "plugin", "tool", "service"]
+}
