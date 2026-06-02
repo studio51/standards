@@ -1,0 +1,6 @@
+{
+  "label": "Interactive demo (GitHub Pages)",
+  "addon": true,
+  "detect": ["index.html"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

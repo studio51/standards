@@ -33,7 +33,7 @@ Options:
   --description <text>   short paragraph for the README/AGENTS
   --type <type>          library | app | plugin | tool | service
   --stack <stack>        js-vanilla | js-react | rails | rails-hotwire | ruby-gem | python (default: detected)
-  --addons <list>        comma-separated, e.g. docker,js-react
+  --addons <list>        comma-separated, e.g. docker,demo
   --license <license>    MIT | Apache-2.0 | Proprietary (default: from config)
   --visibility <vis>     public | private (default: detected/config)
   --dir <path>           target directory (default: current directory)

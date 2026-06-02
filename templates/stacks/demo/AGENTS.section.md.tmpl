@@ -1,0 +1,18 @@
+## Component + Playground
+
+This repo ships a reusable core plus an interactive demo, and follows the Studio51
+"Component + Playground" standard:
+
+- **The core is standalone and dependency-free.** It must work on its own, dropped
+  into any page or app, with no reliance on the demo and no build step. Keep it in
+  its own directory (e.g. `shared/`, `src/`, or `core/`), separate from the demo.
+- **The demo lives in `index.html`** at the repo root and auto-publishes to GitHub
+  Pages on every push to `main` (see `.github/workflows/pages.yml`). Lead the README
+  with the live-demo link and a screenshot.
+- **Settings are live and visible.** Expose the component's options through an
+  on-page settings panel so visitors can tweak it in the browser. Follow the studio
+  `tweaks-panel` convention: a floating panel of sliders / toggles / selects /
+  colour pickers bound to the component's options. Keep this repo's copy of that
+  panel in step with the others rather than reinventing it.
+- **`docs/USAGE.md`** shows how to embed the core standalone (without the demo);
+  **`docs/ARCHITECTURE.md`** explains the core/demo split.
