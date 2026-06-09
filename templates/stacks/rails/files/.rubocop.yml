@@ -1,11 +1,15 @@
 # Studio51 · rails
+#
 # Omakase Ruby styling + Performance cops, the only accepted RuboCop config
-# across Studio51 Ruby repos. Add `rubocop-rails-omakase` and `rubocop-performance`
-# to the Gemfile's :development group.
+# across Studio51 Ruby repos.
+#
+# Add `rubocop-rails-omakase` and `rubocop-performance` to the
+# Gemfile's :development group.
+#
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
-require:
+plugins:
   - rubocop-performance
 
 # House overrides go below; keep them minimal.
@@ -14,5 +18,9 @@ require:
 # opening (breathing room before the first documented member). Allow it.
 Layout/EmptyLinesAroundModuleBody:
   Enabled: false
+
+# Studio51 comment style puts a blank line after a class / `class << self`
+# opening (breathing room before the first documented member). Allow it.
+# Also, when a class is documented, it's followed by a blank line. Allow it.
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
