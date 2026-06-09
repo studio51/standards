@@ -9,3 +9,10 @@ require:
   - rubocop-performance
 
 # House overrides go below; keep them minimal.
+
+# Studio51 comment style puts a blank line after a namespace module / `class << self`
+# opening (breathing room before the first documented member). Allow it.
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
