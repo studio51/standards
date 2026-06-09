@@ -6,3 +6,14 @@
 - Follow Rails conventions: skinny controllers, models for domain logic.
 - For gems: bump the version in the gemspec/`version.rb` and update `CHANGELOG.md`
   before release; never edit generated artifacts by hand.
+
+### Ruby style
+
+- **Doc comments are YARD.** Every method gets a `@param` per argument, a `@return`,
+  and `@yieldparam` if it yields — including `initialize`. One blank `#` line between
+  the description and the tags.
+- **Blank line after a namespace `module` / `class << self` opening** (RuboCop's
+  `Layout/EmptyLinesAround{Module,Class}Body` are disabled in `.rubocop.yml` for this).
+- **Trailing inline comments on `attr_*` and grouped constants**, not a paragraph above.
+- **Hash-value shorthand (Ruby ≥ 3.1):** `foo(headers:)`, never `foo(headers: headers)`.
+- **`.freeze` string-literal constants.** Lint (`bundle exec rubocop`, omakase) must be clean.
