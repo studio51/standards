@@ -10,6 +10,11 @@ The canonical templates + CLI that scaffold standard files into every other
 Studio51 Solutions repo. Changing a file here changes the standard for all 
 future repos.
 
+The standards themselves are versioned documents under
+`standards/<slug>/<version>/STANDARD.md` (common, api-gem, app, tool); the
+root [STANDARD.md](STANDARD.md) indexes them and carries the org-wide
+repository registry — which exists **only** in this repo.
+
 ## Golden rules
 
 - **Templates are not finished files.** Files under `templates/` contain
@@ -21,7 +26,19 @@ future repos.
 - **Keep the README skeleton stable.** The section order in
   `templates/common/README.md.tmpl` is the product. Add optional sections as
   commented stubs rather than reordering.
-- **One fact, one place.** Org details live only in `studio51.config.json`.
+- **One fact, one place.** Org details live only in `studio51.config.json`,
+  including the current version per standard (the `standards` map).
+- **Published standard versions are immutable.** Evolving a standard means a
+  new `standards/<slug>/v<n+1>/` directory, never rewriting the old one
+  (errata fixes excepted). Bump the version in `studio51.config.json` when the
+  new version becomes current.
+- **Keep the registry honest.** Any repo created, migrated, or archived in the
+  `studio51` / `games-directory` orgs gets its row updated in
+  [STANDARD.md](STANDARD.md).
+- **Ruby is always the latest stable (currently 4.0.5).** Studio51 does not
+  maintain older Rubies (we stay within ~2 patch/minor releases of upstream);
+  never lower a pin, CI matrix, or `required_ruby_version` without the
+  issue + PR that justifies it.
 
 ## Conventions (the Studio51 standard, mirrored into generated repos)
 
