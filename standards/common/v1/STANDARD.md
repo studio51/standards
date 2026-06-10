@@ -11,7 +11,8 @@
   and evolves through versioned directories (`v1`, `v2`, …) on `main`.
 - A repo declares the standard it adheres to in its README **Navigation**
   section (see below) and is tracked in the org-wide
-  [repository registry](../../../STANDARD.md).
+  [repository registry](../../../README.md#repository-registry) in the
+  standards repo's README.
 - A new version is a new directory; published versions are never rewritten,
   only errata-fixed. Repos migrate deliberately, one PR per repo.
 

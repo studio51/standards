@@ -6,7 +6,7 @@
 
 ```
 standards/
-├── STANDARD.md             # index of versioned standards + org-wide repository registry
+├── README.md               # Navigation + standards index + org-wide repository registry
 ├── standards/              # the versioned standards themselves
 │   └── <slug>/<version>/STANDARD.md   # common, api-gem, app, tool — v1, v2, …
 ├── studio51.config.json    # org-wide defaults (name, author, email, standards, licenses, stacks)
@@ -26,9 +26,9 @@ Each standard (Common, API Gem, App, Tool, …) lives under
 directories on `main`: a new version is a new directory, published versions
 are only errata-fixed, and repos migrate deliberately. The current version per
 slug lives in `studio51.config.json` (`standards` map) and feeds the
-`{{STANDARD_*}}` tokens. [STANDARD.md](../STANDARD.md) indexes the standards
-and carries the org-wide registry of which repo adheres to which version —
-that registry exists only in this repo.
+`{{STANDARD_*}}` tokens. The [README](../README.md) indexes the standards
+under **Navigation** and carries the org-wide registry of which repo adheres
+to which version — that registry exists only in this repo.
 
 ## How generation works
 

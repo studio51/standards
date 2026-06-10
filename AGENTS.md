@@ -12,8 +12,8 @@ future repos.
 
 The standards themselves are versioned documents under
 `standards/<slug>/<version>/STANDARD.md` (common, api-gem, app, tool); the
-root [STANDARD.md](STANDARD.md) indexes them and carries the org-wide
-repository registry — which exists **only** in this repo.
+[README](README.md) indexes them under **Navigation** and carries the
+org-wide repository registry — which exists **only** in this repo.
 
 ## Golden rules
 
@@ -33,8 +33,8 @@ repository registry — which exists **only** in this repo.
   (errata fixes excepted). Bump the version in `studio51.config.json` when the
   new version becomes current.
 - **Keep the registry honest.** Any repo created, migrated, or archived in the
-  `studio51` / `games-directory` orgs gets its row updated in
-  [STANDARD.md](STANDARD.md).
+  `studio51` / `games-directory` orgs gets its row updated in the
+  [README](README.md) repository registry.
 - **Ruby is always the latest stable (currently 4.0.5).** Studio51 does not
   maintain older Rubies (we stay within ~2 patch/minor releases of upstream);
   never lower a pin, CI matrix, or `required_ruby_version` without the
