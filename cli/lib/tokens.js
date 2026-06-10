@@ -11,6 +11,18 @@ function titleCase(name) {
     .join(' ');
 }
 
+// Display labels for standard slugs, used in the README adherence line.
+const STANDARD_LABELS = { common: 'Common', 'api-gem': 'API Gem', app: 'App', tool: 'Tool' };
+
+// Pick the standard a repo adheres to from its answers (overridable via --standard).
+export function deriveStandard(answers) {
+  if (answers.standard) return answers.standard;
+  if (answers.stack === 'ruby-gem' && /^api-/.test(answers.name || '')) return 'api-gem';
+  if (['app', 'service'].includes(answers.type)) return 'app';
+  if (answers.type === 'tool') return 'tool';
+  return 'common';
+}
+
 // Resolve a stack's dependency chain (extends) into an ordered, de-duplicated list.
 export function resolveStacks(stacksDir, primary, addons = []) {
   const ordered = [];
@@ -46,6 +58,7 @@ export function buildTokens(config, answers) {
   const year = answers.year || String(new Date().getFullYear());
   const existing = answers.existingYear;
   const yearRange = existing && existing !== year ? `${existing}–${year}` : year;
+  const standard = deriveStandard(answers);
 
   return {
     PROJECT_NAME: answers.name,
@@ -68,6 +81,9 @@ export function buildTokens(config, answers) {
     SECURITY_CONTACT: org.securityContact || org.email,
     YEAR: year,
     YEAR_RANGE: yearRange,
+    STANDARD_SLUG: standard,
+    STANDARD_LABEL: STANDARD_LABELS[standard] || titleCase(standard),
+    STANDARD_VERSION: (config.standards || {})[standard] || 'v1',
   };
 }
 

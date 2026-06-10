@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { createInterface } from 'node:readline/promises';
 import { stdin, stdout } from 'node:process';
 
-import { buildTokens, stackLabel, resolveStacks } from '../lib/tokens.js';
+import { buildTokens, stackLabel, resolveStacks, deriveStandard } from '../lib/tokens.js';
 import {
   detectStack,
   detectDockerAddon,
@@ -33,6 +33,7 @@ Options:
   --description <text>   short paragraph for the README/AGENTS
   --type <type>          library | app | plugin | tool | service
   --stack <stack>        js-vanilla | js-react | rails | rails-hotwire | ruby-gem | python (default: detected)
+  --standard <slug>      common | api-gem | app | tool (default: derived from name/type/stack)
   --addons <list>        comma-separated, e.g. docker,demo
   --license <license>    MIT | Apache-2.0 | Proprietary (default: from config)
   --visibility <vis>     public | private (default: detected/config)
@@ -89,6 +90,9 @@ async function main() {
     f.license || (await ask('License [MIT|Apache-2.0|Proprietary]', config.defaults.license));
   const visibility =
     f.visibility || (await ask('Visibility [public|private]', config.defaults.visibility));
+  const standard =
+    f.standard ||
+    (await ask('Standard [common|api-gem|app|tool]', deriveStandard({ name, type, stack })));
   const tagline = f.tagline || (await ask('Tagline', ''));
   const description = f.description || (await ask('Description', tagline));
 
@@ -110,6 +114,7 @@ async function main() {
     addons,
     license,
     visibility,
+    standard,
     existingYear,
     targetDir,
     stackLabel: stackLabel(join(TEMPLATES_DIR, 'stacks'), stacks),
@@ -121,6 +126,7 @@ async function main() {
   console.log(`  project:    ${tokens.PROJECT_TITLE} (${type})`);
   console.log(`  stacks:     ${stacks.join(' + ')}  →  "${tokens.STACK_LABEL}"`);
   console.log(`  license:    ${license}   visibility: ${visibility}`);
+  console.log(`  standard:   ${tokens.STANDARD_LABEL} ${tokens.STANDARD_VERSION}`);
   console.log(`  copyright:  ${tokens.YEAR_RANGE} ${tokens.LEGAL_NAME}\n`);
 
   const result = generate({

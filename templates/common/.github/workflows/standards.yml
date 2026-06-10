@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: README stays minimal (screenshot, title, description, docs menu, license)
+      - name: README stays minimal (screenshot, title, description, navigation menu, license)
         run: |
           if [ ! -f README.md ]; then
             echo "No README.md found."; exit 1
           fi
-          bad=$(grep -E '^##[[:space:]]' README.md | sed -E 's/^##[[:space:]]+//' | grep -viE '^(docs|documentation|license)$' || true)
+          bad=$(grep -E '^##[[:space:]]' README.md | sed -E 's/^##[[:space:]]+//' | grep -viE '^(navigation|docs|documentation|license)$' || true)
           if [ -n "$bad" ]; then
             echo "README.md has sections that belong in docs/*.md:"
             echo "$bad" | sed 's/^/  - /'
             echo
-            echo "Allowed top-level (##) sections: Docs, License."
+            echo "Allowed top-level (##) sections: Navigation, License."
             echo "Move overview / motivation / usage / setup prose into docs/."
             exit 1
           fi

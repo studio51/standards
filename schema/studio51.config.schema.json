@@ -36,6 +36,11 @@
         "stack": { "type": "string" }
       }
     },
+    "standards": {
+      "type": "object",
+      "description": "Current version per standard slug (e.g. api-gem → v1); see standards/<slug>/<version>/STANDARD.md.",
+      "additionalProperties": { "type": "string", "pattern": "^v[0-9]+$" }
+    },
     "licenses": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "stacks": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
     "types": { "type": "array", "items": { "type": "string" }, "minItems": 1 }

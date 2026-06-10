@@ -37,6 +37,9 @@ A token's value is resolved from the first source that provides it:
 | `{{SECURITY_CONTACT}}` | config | `security@studio51.solutions` |
 | `{{YEAR}}` | computed | `2026` |
 | `{{YEAR_RANGE}}` | computed / existing | `2014 – 2026` |
+| `{{STANDARD_SLUG}}` | prompt / derived | `api-gem` (directory under `standards/`) |
+| `{{STANDARD_LABEL}}` | derived | `API Gem` |
+| `{{STANDARD_VERSION}}` | config (`standards` map) | `v1` |
 
 `{{YEAR_RANGE}}` preserves an existing repo's original copyright year when
 re-syncing (e.g. fluent-icons keeps `2023 – 2026`); for a brand-new repo it is

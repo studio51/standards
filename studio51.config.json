@@ -15,6 +15,12 @@
     "visibility": "private",
     "stack": "rails"
   },
+  "standards": {
+    "common": "v1",
+    "api-gem": "v1",
+    "app": "v1",
+    "tool": "v1"
+  },
   "licenses": ["MIT", "Apache-2.0", "Proprietary"],
   "stacks": ["js-vanilla", "js-react", "rails", "rails-hotwire", "ruby-gem", "python", "docker", "demo"],
   "types": ["library", "app", "plugin", "tool", "service"]
