@@ -38,7 +38,9 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: true
 
 # Studio51 style: interpolations breathe — `"#{ value }"`, never `"#{value}"`.
+# Omakase disables this; we want it on.
 Layout/SpaceInsideStringInterpolation:
+  Enabled: true
   EnforcedStyle: space
 
 # Studio51 style: when a local variable matches the keyword/hash key, use the
