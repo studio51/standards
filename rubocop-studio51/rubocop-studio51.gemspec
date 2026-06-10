@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   DESC
 
   spec.homepage = "https://github.com/studio51/standards"
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 4.0.5"
 
   # Proprietary & confidential — internal Studio51 tooling. Not for public distribution.
   spec.license = "Nonstandard"

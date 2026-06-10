@@ -1,6 +1,12 @@
 ## Stack: Ruby / Rails
 
-- Install: `bundle install`. Ruby version is pinned in `.ruby-version`.
+- Install: `bundle install`. Ruby version is pinned in `.ruby-version` / `.tool-versions`.
+- **Ruby version policy:** Studio51 Solutions does not maintain older Rubies.
+  Every repo pins the latest stable Ruby and we aim to stay within two
+  patch/minor releases of upstream at all times. We are a small team and don't
+  have the resources to guarantee backwards compatibility; anyone who needs an
+  older Ruby supported must open an issue justifying the why, with a PR
+  alongside it. Never lower `.ruby-version` or the CI matrix without that issue.
 - Tests: `bundle exec rake` (or `bin/rails test` / `bundle exec rspec`).
 - Lint: `bundle exec rubocop` (run `-A` to auto-correct).
 - Follow Rails conventions: skinny controllers, models for domain logic.
