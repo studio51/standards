@@ -17,6 +17,10 @@
         "url": { "type": "string", "format": "uri" },
         "legalName": { "type": "string" },
         "author": { "type": "string" },
+        "ownerHandle": {
+          "type": "string",
+          "description": "GitHub username (or existing team, as org/team) used as the default CODEOWNERS owner."
+        },
         "email": { "type": "string", "format": "email" },
         "website": { "type": "string", "format": "uri" },
         "securityContact": { "type": "string" }

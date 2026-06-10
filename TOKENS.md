@@ -31,6 +31,7 @@ A token's value is resolved from the first source that provides it:
 | `{{REPO_URL}}` | derived | `https://github.com/studio51/orbit` |
 | `{{LEGAL_NAME}}` | config | `Studio51 Solutions` |
 | `{{AUTHOR}}` | config | `Vlad Radulescu` |
+| `{{OWNER_HANDLE}}` | config | `pacMakaveli` (a real GitHub user/team for `CODEOWNERS`) |
 | `{{EMAIL}}` | config | `vlad@studio51.solutions` |
 | `{{WEBSITE}}` | config | `https://studio51.solutions` |
 | `{{SECURITY_CONTACT}}` | config | `security@studio51.solutions` |

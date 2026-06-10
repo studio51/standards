@@ -62,6 +62,7 @@ export function buildTokens(config, answers) {
     REPO_URL: `${org.url}/${answers.name}`,
     LEGAL_NAME: org.legalName,
     AUTHOR: org.author,
+    OWNER_HANDLE: org.ownerHandle || org.handle,
     EMAIL: org.email,
     WEBSITE: org.website,
     SECURITY_CONTACT: org.securityContact || org.email,
