@@ -1,16 +1,23 @@
 # Studio51 · ruby-gem
 #
-# Omakase Ruby styling + Performance cops, the only accepted RuboCop config
-# across Studio51 Ruby repos.
+# Omakase Ruby styling + Performance cops + the Studio51 house cops, the only
+# accepted RuboCop config across Studio51 Ruby repos.
 #
-# Add `rubocop-rails-omakase` and `rubocop-performance` to the
-# gemspec/Gemfile's development dependencies.
+# Add `rubocop-rails-omakase` and `rubocop-performance` to the gemspec/Gemfile's
+# development dependencies, and `rubocop-studio51` to the Gemfile:
+#
+#   group :development do
+#     gem "rubocop-studio51", git: "https://github.com/studio51/standards", glob: "rubocop-studio51/*.gemspec"
+#   end
 #
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
 plugins:
   - rubocop-performance
+
+require:
+  - rubocop-studio51
 
 # House overrides go below; keep them minimal.
 
@@ -24,3 +31,32 @@ Layout/EmptyLinesAroundModuleBody:
 # Also, when a class is documented, it's followed by a blank line. Allow it.
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
+
+# Studio51 flow: a guard-clause group is followed by a breathing line.
+# Omakase disables this; we want it on.
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+
+# Studio51 style: interpolations breathe — `"#{ value }"`, never `"#{value}"`.
+Layout/SpaceInsideStringInterpolation:
+  EnforcedStyle: space
+
+# Studio51 style: when a local variable matches the keyword/hash key, use the
+# Ruby 3.1+ shorthand — `f(credentials:)`, never `f(credentials: credentials)`.
+# (Omakase leaves this at `either`, which accepts both and enforces neither.)
+Style/HashSyntax:
+  EnforcedShorthandSyntax: always
+
+# Studio51 docs: documentation blocks separate prose from `@` tags with a bare
+# `#`, and end with a bare `#` when (and only when) the last line is prose.
+Studio51/CommentBlockTermination:
+  Enabled: true
+  Include:
+    - "lib/**/*.rb"
+
+# Studio51 flow: a multi-statement method body breathes — empty line before
+# its final expression.
+Studio51/EmptyLineBeforeTrailingExpression:
+  Enabled: true
+  Include:
+    - "lib/**/*.rb"
