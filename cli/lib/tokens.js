@@ -12,12 +12,21 @@ function titleCase(name) {
 }
 
 // Display labels for standard slugs, used in the README adherence line.
-const STANDARD_LABELS = { common: 'Common', 'api-gem': 'API Gem', app: 'App', tool: 'Tool' };
+const STANDARD_LABELS = {
+  common: 'Common',
+  'api-gem': 'API Gem',
+  app: 'App',
+  'app-nextjs': 'App (Next.js)',
+  tool: 'Tool',
+};
 
 // Pick the standard a repo adheres to from its answers (overridable via --standard).
 export function deriveStandard(answers) {
   if (answers.standard) return answers.standard;
   if (answers.stack === 'ruby-gem' && /^api-/.test(answers.name || '')) return 'api-gem';
+  // A JavaScript/React app on this org is a Next.js app — it gets the Next.js
+  // flavour of the App standard. Other app/service types stay on plain App.
+  if (['app', 'service'].includes(answers.type) && answers.stack === 'js-react') return 'app-nextjs';
   if (['app', 'service'].includes(answers.type)) return 'app';
   if (answers.type === 'tool') return 'tool';
   return 'common';
