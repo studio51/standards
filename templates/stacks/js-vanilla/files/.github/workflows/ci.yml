@@ -12,3 +12,4 @@ jobs:
         with:
           node-version: "20"
       - run: npx prettier --check .
+      - run: npx eslint .

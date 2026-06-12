@@ -4,4 +4,7 @@
   `npx serve .` / `python3 -m http.server`.
 - Plain ES modules: no bundler, no framework. Keep it dependency-free.
 - Format with Prettier: `npx prettier --check .` (run `--write` to fix).
+- House style with ESLint: `npx eslint .` (run `--fix` to fix). Enforces the
+  "breathing" layout Prettier can't — a blank line before a function's final
+  expression, between class members, and around declaration groups.
 - Shared logic lives in `shared/`; entry points stay thin.
