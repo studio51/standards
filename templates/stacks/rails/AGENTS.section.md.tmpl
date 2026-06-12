@@ -8,7 +8,8 @@
   older Ruby supported must open an issue justifying the why, with a PR
   alongside it. Never lower `.ruby-version` or the CI matrix without that issue.
 - Tests: `bundle exec rake` (or `bin/rails test` / `bundle exec rspec`).
-- Lint: `bundle exec rubocop` (run `-A` to auto-correct).
+- Lint: `bundle exec rubocop` (run `-A` to auto-correct). RuboCop must be
+  >= 1.80 to target Ruby 4.0; older releases crash on the 4.0 parser.
 - Follow Rails conventions: skinny controllers, models for domain logic.
 - For gems: bump the version in the gemspec/`version.rb` and update `CHANGELOG.md`
   before release; never edit generated artifacts by hand.

@@ -23,7 +23,8 @@ model and how a repo declares adherence.
 |---|---|---|
 | [Common](standards/common/v1/STANDARD.md) | v1 | active |
 | [API Gem](standards/api-gem/v1/STANDARD.md) | v1 | active |
-| [App](standards/app/v1/STANDARD.md) | v1 | draft |
+| [App](standards/app/v1/STANDARD.md) | v1 | active |
+| [App (Next.js)](standards/app-nextjs/v1/STANDARD.md) | v1 | active |
 | [Tool](standards/tool/v1/STANDARD.md) | v1 | draft |
 
 ### Repository registry
@@ -39,6 +40,7 @@ model and how a repo declares adherence.
 | Repository | Standard | Version | Status | Notes |
 |---|---|---|---|---|
 | [standards](https://github.com/studio51/standards) | common | v1 | active | this repo — defines the standards |
+| [radulescuvlad.dev](https://github.com/studio51/radulescuvlad.dev) | app-nextjs | v1 | active | personal site (vladthe.dev); reference implementation for the App (Next.js) standard |
 | [story-teller](https://github.com/studio51/story-teller) | none | — | active | |
 | [little-days-out](https://github.com/studio51/little-days-out) | none | — | active | |
 | [reforge.app](https://github.com/studio51/reforge.app) | none | — | active | |
@@ -79,7 +81,7 @@ model and how a repo declares adherence.
 |---|---|---|---|---|
 | [api-playgoals](https://github.com/games-directory/api-playgoals) | api-gem | v1 | active | |
 | [cache](https://github.com/games-directory/cache) | none | — | active | |
-| [games.directory](https://github.com/games-directory/games.directory) | none | — | active | |
+| [games.directory](https://github.com/games-directory/games.directory) | app | v1 | active | reference implementation for the App standard |
 | [i18n-inflections](https://github.com/games-directory/i18n-inflections) | none | — | active | |
 | [api-fortnite](https://github.com/games-directory/api-fortnite) | none | — | active | |
 | [api-play-station-network](https://github.com/games-directory/api-play-station-network) | none | — | active | |

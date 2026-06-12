@@ -11,12 +11,15 @@ test, and lint commands.
 
 ## Workflow
 
+Never commit to `main` directly; every change, however small, lands through a
+pull request.
+
 1. Create a branch off `main`: `feature/…`, `fix/…`, or `chore/…`.
-2. Make your change. Keep it focused: one logical change per PR.
+2. Make your change. Keep it atomic: one logical change per PR.
 3. Add a line under **Unreleased** in [CHANGELOG.md](CHANGELOG.md) if the change
    is user-facing.
-4. Make sure tests and lint pass.
-5. Open a pull request. Fill in the PR template.
+4. Make sure tests and lint pass, and that your commits are verified (signed).
+5. Open a pull request with a clear description. Fill in the PR template.
 
 ## Commit messages
 

@@ -42,10 +42,13 @@ org-wide repository registry — which exists **only** in this repo.
 
 ## Conventions (the Studio51 standard, mirrored into generated repos)
 
-- Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`…).
-- Branches: `feature/…`, `fix/…`, `chore/…`.
+- Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`…); commits verified.
+- Branches: `feature/…`, `fix/…`, `chore/…`. Never commit to `main`; open a PR
+  for every change, however small.
+- Pull requests are atomic (one thing each) with a clear description.
 - Update `CHANGELOG.md` under **Unreleased** for any user-facing change.
-- Never commit secrets. Never commit an AI tool as the git author.
+- Never commit secrets. Never set an AI tool as the git author or co-author.
+- Never use em dashes; use a comma, or reword, instead.
 
 ## Before you finish
 

@@ -4,7 +4,8 @@
 # across Studio51 Ruby repos.
 #
 # Add `rubocop-rails-omakase` and `rubocop-performance` to the
-# Gemfile's :development group.
+# Gemfile's :development group. RuboCop must be >= 1.80 to target Ruby 4.0;
+# older releases crash on the 4.0 parser.
 #
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
