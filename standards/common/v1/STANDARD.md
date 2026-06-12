@@ -82,11 +82,59 @@ stack section (YARD for Ruby).
 
 ## Workflow conventions
 
+These rules apply to agents and humans alike.
+
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, …).
-- **Branches:** `feature/…`, `fix/…`, `chore/…`; PRs into `main`.
+  Commits must be **verified** (signed); `main` rejects unverified commits.
+- **Branches:** `feature/…`, `fix/…`, `chore/…`. Never commit to `main`
+  directly; every change lands through a pull request, however small.
+- **Pull requests:** one PR does one thing (keep them atomic), carries a clear
+  description of what changed and why, and includes a `CHANGELOG.md` entry for
+  any user-facing change.
 - **Changelog:** every user-facing change adds a line under **Unreleased**.
 - **Secrets:** never committed; `.env` is ignored, `.env.example` documents shape.
-- **Authorship:** never an AI tool as git author, never an AI `Co-Authored-By` trailer.
+- **Authorship:** never an AI tool as git author or co-author, never an AI
+  `Co-Authored-By` trailer. Agents never list themselves on a commit.
+- **Writing style:** never use em dashes in prose, commits, or docs; use a
+  comma, or reword the sentence, instead.
+
+## Required repository files
+
+Every repo must carry these. The standards check fails the build when one is
+missing:
+
+- **`README.md`**, without it the project cannot be used.
+- **`LICENSE`**, without it the project cannot be distributed.
+- **`CHANGELOG.md`**, without it the project cannot be released.
+- **`CONTRIBUTING.md`**, without it nobody knows how to contribute.
+- **`CODE_OF_CONDUCT.md`**, without it contribution has no ground rules.
+
+Verified commits are required alongside them: `main` refuses to merge
+unverified commits.
+
+## GitHub repository settings
+
+Every repo in the `studio51` and `games-directory` organisations is configured
+identically, so the contribution flow is the same everywhere. The declarative
+source is `.github/settings.yml` (applied by the GitHub "Settings" app);
+anything the app cannot set yet is noted there and applied as a repository
+ruleset by hand.
+
+Required configuration:
+
+- **Verified commits** on `main`, enforced by a ruleset; unverified commits
+  cannot be merged.
+- **Require a pull request before merging**, with pull requests restricted to
+  collaborators.
+- **Merge commits allowed**, with the default merge commit message set to the
+  pull request title.
+- **Always suggest updating pull request branches.**
+- **Automatically delete head branches** after merge.
+- **Require contributors to sign off on web-based commits.**
+- **Allow comments on individual commits.**
+- **Auto-close issues** with merged linked pull requests.
+- **Issues, Discussions, Projects, and Wiki** all enabled.
+- **An issue template** present, scaffolded under `.github/ISSUE_TEMPLATE/`.
 
 ## Runtime currency policy
 
