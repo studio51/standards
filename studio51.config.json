@@ -18,7 +18,7 @@
   "standards": {
     "common": "v1",
     "api-gem": "v1",
-    "app": "v1",
+    "app-rails": "v1",
     "app-nextjs": "v1",
     "tool": "v1"
   },
