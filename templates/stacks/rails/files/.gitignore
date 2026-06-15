@@ -18,6 +18,10 @@
 .env
 .env.*
 !.env.example
+# Rails: ignore the master key that decrypts credentials; the encrypted
+# *.enc files are safe to commit, the keys never are.
+/config/master.key
+/config/credentials/*.key
 # gem build artifacts
 /pkg/
 *.gem

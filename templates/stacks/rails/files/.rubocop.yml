@@ -1,17 +1,26 @@
 # Studio51 · rails
 #
-# Omakase Ruby styling + Performance cops, the only accepted RuboCop config
-# across Studio51 Ruby repos.
+# Omakase Ruby styling + Performance cops + the Studio51 house cops, the only
+# accepted RuboCop config across Studio51 Ruby repos.
 #
-# Add `rubocop-rails-omakase` and `rubocop-performance` to the
-# Gemfile's :development group. RuboCop must be >= 1.80 to target Ruby 4.0;
-# older releases crash on the 4.0 parser.
+# Add `rubocop-rails-omakase` and `rubocop-performance` to the Gemfile's
+# :development group, plus `rubocop-studio51` (git-sourced):
+#
+#   group :development do
+#     gem "rubocop-studio51", git: "https://github.com/studio51/standards", glob: "rubocop-studio51/*.gemspec", require: false
+#   end
+#
+# RuboCop must be >= 1.80 to target Ruby 4.0; older releases crash on the 4.0
+# parser.
 #
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
 plugins:
   - rubocop-performance
+
+require:
+  - rubocop-studio51
 
 # House overrides go below; keep them minimal.
 
@@ -25,3 +34,19 @@ Layout/EmptyLinesAroundModuleBody:
 # Also, when a class is documented, it's followed by a blank line. Allow it.
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
+
+# Studio51 docs: documentation blocks separate prose from `@` tags with a bare
+# `#`, and end with a bare `#` when (and only when) the last line is prose.
+Studio51/CommentBlockTermination:
+  Enabled: true
+  Include:
+    - "app/**/*.rb"
+    - "lib/**/*.rb"
+
+# Studio51 flow: a multi-statement method body breathes — empty line before
+# its final expression.
+Studio51/EmptyLineBeforeTrailingExpression:
+  Enabled: true
+  Include:
+    - "app/**/*.rb"
+    - "lib/**/*.rb"
