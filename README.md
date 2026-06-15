@@ -42,7 +42,8 @@ model and how a repo declares adherence.
 |---|---|---|---|---|
 | [standards](https://github.com/studio51/standards) | common | v1 | active | this repo — defines the standards |
 | [radulescuvlad.dev](https://github.com/studio51/radulescuvlad.dev) | app-nextjs | v1 | active | personal site (vladthe.dev); reference implementation for the App (Next.js) standard |
-| [snapshield](https://github.com/studio51/snapshield) | app-swift | v1 | active | SwiftUI iOS app; reference implementation for the App (Swift) standard |
+| [snapshield](https://github.com/studio51/snapshield) | app-nextjs | v1 | active | Snapshield marketing site (Next.js) |
+| [snapshield-ios](https://github.com/studio51/snapshield-ios) | app-swift | v1 | active | SwiftUI iOS app; reference implementation for the App (Swift) standard |
 | [story-teller](https://github.com/studio51/story-teller) | none | — | active | |
 | [little-days-out](https://github.com/studio51/little-days-out) | none | — | active | |
 | [reforge.app](https://github.com/studio51/reforge.app) | none | — | active | |
