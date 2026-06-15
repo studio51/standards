@@ -14,16 +14,21 @@ Both cops are autocorrectable (`rubocop -a`).
 
 ## Usage
 
-In the repo's `Gemfile` (libraries put RuboCop tooling here, not in the gemspec,
-because git-sourced dependencies can't be declared in a gemspec):
+These cops are house-wide: every Studio51 Ruby repo wires them in, regardless
+of stack. They ship pre-wired in both the `ruby-gem` and `rails` stack
+`.rubocop.yml` templates; the only per-stack difference is the `Include` glob
+(`lib/**/*.rb` for a gem, `app/**/*.rb` + `lib/**/*.rb` for an app).
+
+In the repo's `Gemfile` (RuboCop tooling lives here, not in a gemspec, because
+git-sourced dependencies can't be declared in a gemspec):
 
 ```ruby
 group :development do
-  gem "rubocop-studio51", git: "https://github.com/studio51/standards", glob: "rubocop-studio51/*.gemspec"
+  gem "rubocop-studio51", git: "https://github.com/studio51/standards", glob: "rubocop-studio51/*.gemspec", require: false
 end
 ```
 
-In `.rubocop.yml` (already wired by the `ruby-gem` stack template):
+In `.rubocop.yml` (already wired by the `ruby-gem` and `rails` stack templates):
 
 ```yaml
 require:
@@ -32,14 +37,17 @@ require:
 Studio51/CommentBlockTermination:
   Enabled: true
   Include:
+    - "app/**/*.rb"   # apps; gems use lib/**/*.rb
     - "lib/**/*.rb"
 
 Studio51/EmptyLineBeforeTrailingExpression:
   Enabled: true
   Include:
+    - "app/**/*.rb"   # apps; gems use lib/**/*.rb
     - "lib/**/*.rb"
 ```
 
-The rest of the house style is enforced with built-in cops — see
-[`templates/stacks/ruby-gem/files/.rubocop.yml`](../templates/stacks/ruby-gem/files/.rubocop.yml),
-the canonical configuration scaffolded into every Studio51 Ruby repo.
+The rest of the house style is enforced with built-in cops — see the canonical
+stack configurations scaffolded into every Studio51 Ruby repo
+([`ruby-gem`](../templates/stacks/ruby-gem/files/.rubocop.yml),
+[`rails`](../templates/stacks/rails/files/.rubocop.yml)).
