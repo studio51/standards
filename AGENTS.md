@@ -11,7 +11,7 @@ Studio51 Solutions repo. Changing a file here changes the standard for all
 future repos.
 
 The standards themselves are versioned documents under
-`standards/<slug>/<version>/STANDARD.md` (common, api-gem, app, tool); the
+`standards/<slug>/<version>/STANDARD.md` (common, api-gem, app-rails, tool); the
 [README](README.md) indexes them under **Navigation** and carries the
 org-wide repository registry — which exists **only** in this repo.
 

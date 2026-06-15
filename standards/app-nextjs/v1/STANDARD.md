@@ -1,7 +1,7 @@
 # Studio51 Solutions App (Next.js) Standard · v1
 
 > What a Studio51 Solutions **Next.js** application looks like — the front-end
-> flavour of the [App Standard](../../app/v1/STANDARD.md), for TypeScript/React
+> flavour of the [App (Rails) Standard](../../app-rails/v1/STANDARD.md), for TypeScript/React
 > apps built on Next.js rather than Rails. Extends the
 > [Common Standard v1](../../common/v1/STANDARD.md); it never relaxes it.
 >
@@ -16,9 +16,9 @@
 - Reach for **App (Next.js)** when the deliverable is a Next.js app or site
   (App Router, TypeScript, React) — marketing sites, dashboards, the web tier of
   a product.
-- Reach for the plain **[App Standard](../../app/v1/STANDARD.md)** for Rails /
+- Reach for the **[App (Rails) Standard](../../app-rails/v1/STANDARD.md)** for Rails /
   Hotwire applications.
-- A Rails app with a small React island stays on the App standard; a Next.js app
+- A Rails app with a small React island stays on the App (Rails) standard; a Next.js app
   that calls a Rails API stays here. The repo's primary runtime decides.
 - The `js-react` stack (`npx @studio51/create --stack js-react`) scaffolds the
   tooling for this standard; `--type app` derives `app-nextjs` automatically.

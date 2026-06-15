@@ -23,7 +23,7 @@ model and how a repo declares adherence.
 |---|---|---|
 | [Common](standards/common/v1/STANDARD.md) | v1 | active |
 | [API Gem](standards/api-gem/v1/STANDARD.md) | v1 | active |
-| [App](standards/app/v1/STANDARD.md) | v1 | active |
+| [App (Rails)](standards/app-rails/v1/STANDARD.md) | v1 | active |
 | [App (Next.js)](standards/app-nextjs/v1/STANDARD.md) | v1 | active |
 | [Tool](standards/tool/v1/STANDARD.md) | v1 | draft |
 
@@ -81,7 +81,7 @@ model and how a repo declares adherence.
 |---|---|---|---|---|
 | [api-playgoals](https://github.com/games-directory/api-playgoals) | api-gem | v1 | active | |
 | [cache](https://github.com/games-directory/cache) | none | — | active | |
-| [games.directory](https://github.com/games-directory/games.directory) | app | v1 | active | reference implementation for the App standard |
+| [games.directory](https://github.com/games-directory/games.directory) | app-rails | v1 | active | reference implementation for the App (Rails) standard |
 | [i18n-inflections](https://github.com/games-directory/i18n-inflections) | none | — | active | |
 | [api-fortnite](https://github.com/games-directory/api-fortnite) | none | — | active | |
 | [api-play-station-network](https://github.com/games-directory/api-play-station-network) | none | — | active | |
