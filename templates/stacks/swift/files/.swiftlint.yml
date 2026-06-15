@@ -1,0 +1,40 @@
+# Studio51 standard SwiftLint configuration.
+# https://github.com/realm/SwiftLint
+
+# Scan only first-party sources; skip generated, vendored, and build output.
+excluded:
+  - .build
+  - DerivedData
+  - build
+  - Pods
+  - Carthage
+  - "**/*.generated.swift"
+
+opt_in_rules:
+  - empty_count
+  - explicit_init
+  - first_where
+  - force_unwrapping
+  - missing_docs            # public symbols must carry a DocC comment (Common Standard)
+  - redundant_nil_coalescing
+  - sorted_imports
+  - toggle_bool
+  - unused_import
+  - vertical_whitespace_closing_braces
+
+disabled_rules:
+  - todo                    # TODO/FIXME notes are allowed in progress branches
+
+line_length:
+  warning: 120
+  error: 160
+  ignores_comments: true
+  ignores_urls: true
+
+identifier_name:
+  min_length: 2             # allow short, idiomatic names like id, ok, dx
+  excluded: [id, x, y, z, dx, dy, ok, to, vm]
+
+# Force unwraps and force tries are errors, not warnings: handle the nil case.
+force_cast: error
+force_try: error

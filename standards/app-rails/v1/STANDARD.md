@@ -67,9 +67,13 @@ confirms it (per the Common Standard's code-documentation rules).
 
 - Pin the latest stable Ruby in `.ruby-version` / `.tool-versions` (runtime
   currency policy). The reference app is on **Ruby 4.0.5**.
-- Lint with the `rails` stack `.rubocop.yml` (Omakase + Performance). **RuboCop
-  must be `>= 1.80` to target Ruby 4.0** — older releases crash on the 4.0
-  parser. Pin that floor in the Gemfile's `:development` group; never lower it.
+- Lint with the `rails` stack `.rubocop.yml` (Omakase + Performance + the
+  `rubocop-studio51` house cops, scoped to `app/` and `lib/`). The house cops
+  are org-wide — every Studio51 Ruby repo carries them — and ship pre-wired in
+  the stack template; add the git-sourced `rubocop-studio51` to the Gemfile's
+  `:development` group. **RuboCop must be `>= 1.80` to target Ruby 4.0** — older
+  releases crash on the 4.0 parser. Pin that floor in the Gemfile's
+  `:development` group; never lower it.
 - `bundle exec rubocop` must be clean. Adopting the standard on an existing
   codebase is a one-time `bundle exec rubocop -A` reformat, committed on its own.
 

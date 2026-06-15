@@ -1,0 +1,47 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  lint:
+    name: SwiftLint
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      # SwiftLint ships preinstalled on GitHub macOS runners.
+      - run: swiftlint --strict
+
+  build-test:
+    name: Build & test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      # Pin the runner to the latest stable Xcode (runtime currency policy).
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+      - name: Resolve scheme and container
+        id: xc
+        run: |
+          if ls *.xcworkspace >/dev/null 2>&1; then
+            flag="-workspace $(ls -d *.xcworkspace | head -1)"
+          elif ls *.xcodeproj >/dev/null 2>&1; then
+            flag="-project $(ls -d *.xcodeproj | head -1)"
+          else
+            flag=""   # Swift Package: xcodebuild infers it
+          fi
+          scheme=$(xcodebuild $flag -list -json | python3 -c "import sys, json; d = json.load(sys.stdin); print((d.get('project') or d.get('workspace') or {}).get('schemes', [''])[0])")
+          echo "flag=$flag" >> "$GITHUB_OUTPUT"
+          echo "scheme=$scheme" >> "$GITHUB_OUTPUT"
+      - name: Build & test
+        run: |
+          xcodebuild test \
+            ${{ steps.xc.outputs.flag }} \
+            -scheme "${{ steps.xc.outputs.scheme }}" \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            CODE_SIGNING_ALLOWED=NO | xcbeautify || \
+          xcodebuild test \
+            ${{ steps.xc.outputs.flag }} \
+            -scheme "${{ steps.xc.outputs.scheme }}" \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
+            CODE_SIGNING_ALLOWED=NO

@@ -1,0 +1,35 @@
+# Studio51 · swift
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xccheckout
+*.xcscmblueprint
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Signing and secrets (never commit these)
+*.mobileprovision
+*.p12
+*.cer
+*.certSigningRequest
+*.xcconfig
+!*.xcconfig.example
+.env
+.env.*
+!.env.example
+
+# CocoaPods / Carthage (not used in new repos)
+Pods/
+Carthage/Build/
