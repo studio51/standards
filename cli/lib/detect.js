@@ -19,6 +19,16 @@ function anyFileMatches(dir, ext) {
 export function detectStack(dir) {
   // Order matters: most specific first.
 
+  // Swift / Apple apps: an Xcode project or workspace, a Swift Package, or any
+  // .swift source at the root is definitional.
+  if (
+    anyFileMatches(dir, '.xcodeproj') ||
+    anyFileMatches(dir, '.xcworkspace') ||
+    has(dir, 'Package.swift') ||
+    anyFileMatches(dir, '.swift')
+  )
+    return 'swift';
+
   // Rails apps: config/application.rb is definitional. Hotwire if Stimulus
   // controllers, Vite, or importmap are present (JS tooling is the maintainer's
   // choice, so any of the three counts).

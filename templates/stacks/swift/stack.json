@@ -1,0 +1,5 @@
+{
+  "label": "Swift · SwiftUI · Xcode",
+  "detect": ["*.xcodeproj", "*.xcworkspace", "Package.swift"],
+  "agentsSection": "AGENTS.section.md.tmpl"
+}

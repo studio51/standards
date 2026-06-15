@@ -1,0 +1,22 @@
+## Stack: Swift / SwiftUI
+
+- Open the project in Xcode (`open *.xcodeproj` or `*.xcworkspace`), or build
+  from the command line with `xcodebuild`.
+- Build: `xcodebuild build -scheme <Scheme> -destination 'generic/platform=iOS'`.
+- Test: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,name=iPhone 16'`.
+- Lint: `swiftlint` (and `swiftlint --fix` to auto-correct). Run it before every
+  commit; the CI lint job must stay clean.
+- SwiftUI first; value types (struct/enum) by default, a class only for reference
+  semantics or framework needs. One primary view per file, named for what it shows.
+- Keep views declarative: business logic lives in observable view models and in
+  engines/services, not in the view body. Dispatch heavy work off the main actor
+  and publish results back on `@MainActor`.
+- Use Swift Concurrency (`async`/`await`, actors) over completion handlers or raw
+  `DispatchQueue`; never silence a data-race warning to ship.
+- Names follow the Swift API Design Guidelines (`UpperCamelCase` types,
+  `lowerCamelCase` members; no `NS`/`k` prefixes on new symbols).
+- Doc comments are DocC `///`: a one-line summary, a blank `///` line, then
+  `- Parameters:` and `- Returns:` where they apply. Group members under
+  `// MARK: -` dividers.
+- Dependencies via Swift Package Manager; commit `Package.resolved`. No CocoaPods
+  or Carthage in new repos. Never commit signing assets, API keys, or `.env`.
