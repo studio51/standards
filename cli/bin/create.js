@@ -33,7 +33,7 @@ Options:
   --description <text>   short paragraph for the README/AGENTS
   --type <type>          library | app | plugin | tool | service
   --stack <stack>        js-vanilla | js-react | rails | rails-hotwire | ruby-gem | python (default: detected)
-  --standard <slug>      common | api-gem | app | app-nextjs | tool (default: derived from name/type/stack)
+  --standard <slug>      common | api-gem | app-rails | app-nextjs | tool (default: derived from name/type/stack)
   --addons <list>        comma-separated, e.g. docker,demo
   --license <license>    MIT | Apache-2.0 | Proprietary (default: from config)
   --visibility <vis>     public | private (default: detected/config)
@@ -92,7 +92,7 @@ async function main() {
     f.visibility || (await ask('Visibility [public|private]', config.defaults.visibility));
   const standard =
     f.standard ||
-    (await ask('Standard [common|api-gem|app|app-nextjs|tool]', deriveStandard({ name, type, stack })));
+    (await ask('Standard [common|api-gem|app-rails|app-nextjs|tool]', deriveStandard({ name, type, stack })));
   const tagline = f.tagline || (await ask('Tagline', ''));
   const description = f.description || (await ask('Description', tagline));
 

@@ -1,6 +1,6 @@
-# Studio51 Solutions App Standard · v1
+# Studio51 Solutions App (Rails) Standard · v1
 
-> What a Studio51 Solutions application (Rails or otherwise) looks like.
+> What a Studio51 Solutions Rails application looks like.
 > Extends the [Common Standard v1](../../common/v1/STANDARD.md); it never
 > relaxes it.
 >
@@ -23,7 +23,7 @@
 Everything the Common Standard requires, with these app-specific expectations:
 
 - **`README.md`** stays minimal — screenshot, title, tagline, description, the
-  **Navigation** menu declaring `App Standard v1`, and the license. The
+  **Navigation** menu declaring `App (Rails) Standard v1`, and the license. The
   `.github/workflows/standards.yml` check enforces this.
 - **`docs/`** carries all prose, each concern in its own file:
   - `ARCHITECTURE.md` — the stack, the `app/` layout, and the key decisions

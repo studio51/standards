@@ -2,7 +2,7 @@
 
 > The baseline every Studio51 Solutions repository adheres to, regardless of
 > stack or type. Type-specific standards ([API Gem](../../api-gem/v1/STANDARD.md),
-> [App](../../app/v1/STANDARD.md), [Tool](../../tool/v1/STANDARD.md)) extend this
+> [App (Rails)](../../app-rails/v1/STANDARD.md), [Tool](../../tool/v1/STANDARD.md)) extend this
 > document; they never relax it.
 
 ## How standards are versioned
