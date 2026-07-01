@@ -26,6 +26,8 @@ const MANAGED_META = [
   'CONTRIBUTING.md',
   '.editorconfig',
   '.gitattributes',
+  '.vscode/extensions.json',
+  '.vscode/settings.json',
 ];
 const isManagedMeta = (dest) => MANAGED_META.includes(dest) || dest.startsWith('.github/');
 
