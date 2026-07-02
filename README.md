@@ -90,7 +90,7 @@ model and how a repo declares adherence.
 | [api-fortnite](https://github.com/games-directory/api-fortnite) | none | — | active | |
 | [api-play-station-network](https://github.com/games-directory/api-play-station-network) | none | — | active | |
 | [lazy-loader](https://github.com/games-directory/lazy-loader) | none | — | active | |
-| [api-halo](https://github.com/games-directory/api-halo) | none | — | active | |
+| [api-halo](https://github.com/games-directory/api-halo) | api-gem | v1 | active | |
 | [temporalize](https://github.com/games-directory/temporalize) | none | — | active | |
 | [xbox-oauth](https://github.com/games-directory/xbox-oauth) | none | — | active | |
 | [api-xbox--COMMUNITY](https://github.com/games-directory/api-xbox--COMMUNITY) | none | — | active | community |
