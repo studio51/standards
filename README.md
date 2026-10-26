@@ -45,7 +45,7 @@ model and how a repo declares adherence.
 | [snapshield-marketing](https://github.com/studio51/snapshield-marketing) | app-nextjs | v1 | active | Snapshield marketing site (Next.js) |
 | [snapshield-studio](https://github.com/studio51/snapshield-studio) | app-rails | v1 | active | Snapshield admin dashboard + JSON API (Rails 8 · Hotwire · Avo) |
 | [snapshield-ios](https://github.com/studio51/snapshield-ios) | app-swift | v1 | active | SwiftUI iOS app; reference implementation for the App (Swift) standard |
-| [story-teller](https://github.com/studio51/story-teller) | none | — | active | |
+| [story-teller](https://github.com/studio51/story-teller) | app-rails | v1 | active | children's picture books, read aloud (Rails 8 JSON API · React SPA); adopted in studio51/story-teller#3 |
 | [little-days-out](https://github.com/studio51/little-days-out) | none | — | active | |
 | [reforge.app](https://github.com/studio51/reforge.app) | none | — | active | |
 | [music](https://github.com/studio51/music) | none | — | active | |
