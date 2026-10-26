@@ -144,13 +144,21 @@ func blurStrangers(in image: CIImage, against people: [Person]) -> CIImage
 
 ## Runtime currency policy
 
-Per the Common Standard, pin the latest stable runtime and stay current:
+Per the Common Standard, always use the latest. Never pin a specific version:
 
-- Build with the **latest stable Xcode** and the **latest Swift language mode**;
-  pin both in CI (an explicit Xcode version on the runner) so local and CI match.
-- Set the **deployment target** to the latest stable OS major, dropping to the
+- **Always the latest stable Xcode**, and the SDKs it ships. CI selects the
+  latest stable Xcode on the runner rather than a version number, so local
+  builds and CI move forward together.
+- **Always the latest Swift language mode**, in `Package.swift`
+  (`swift-tools-version` and `swiftLanguageModes`) and in the Xcode project
+  (`SWIFT_VERSION`), raised as soon as a new mode ships.
+- **Always the latest OS major as the deployment target**, dropping to the
   previous major only with an issue justifying the why plus a PR. We are a small
   team and do not maintain back-compatibility with old OS versions.
+- **Docs and CI say "the latest", never a number.** `AGENTS.md`, `docs/` and the
+  workflows name no Xcode, Swift, iOS or simulator version, so a new release
+  never leaves them stale. The only version numbers live where the toolchain
+  needs one: the project settings and `Package.swift`.
 - Track the latest SDKs; deprecations are resolved promptly rather than silenced.
 
 ## Testing & CI
@@ -158,7 +166,7 @@ Per the Common Standard, pin the latest stable runtime and stay current:
 - Tests run under **XCTest** or the **Swift Testing** framework via `xcodebuild
   test` (the CI `test` job). Engines and view models are unit tested in
   isolation; keep the suite green on the default branch.
-- `ci.yml` runs `swiftlint` then builds and tests on a macOS runner with a
-  pinned Xcode. A build that only works in the IDE is not done; the
-  command-line build is the gate.
+- `ci.yml` runs `swiftlint` then builds and tests on a macOS runner with the
+  latest stable Xcode, on the newest iPhone simulator the runner has. A build
+  that only works in the IDE is not done; the command-line build is the gate.
 - `standards.yml` enforces the minimal README.
