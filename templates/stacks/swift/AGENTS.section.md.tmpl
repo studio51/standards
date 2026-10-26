@@ -3,9 +3,14 @@
 - Open the project in Xcode (`open *.xcodeproj` or `*.xcworkspace`), or build
   from the command line with `xcodebuild`.
 - Build: `xcodebuild build -scheme <Scheme> -destination 'generic/platform=iOS'`.
-- Test: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,name=iPhone 16'`.
+- Test: `xcodebuild test -scheme <Scheme> -destination 'platform=iOS Simulator,OS=latest,name=<iPhone>'`,
+  on the newest iPhone simulator you have (CI picks one by itself).
 - Lint: `swiftlint` (and `swiftlint --fix` to auto-correct). Run it before every
   commit; the CI lint job must stay clean.
+- **Always the latest:** the latest stable Xcode and its SDKs, the latest Swift
+  language mode (`swift-tools-version`, `swiftLanguageModes`, `SWIFT_VERSION`),
+  and the latest iOS major as the deployment target. Docs and CI say "the
+  latest" and never name a version, so a new release never leaves them stale.
 - SwiftUI first; value types (struct/enum) by default, a class only for reference
   semantics or framework needs. One primary view per file, named for what it shows.
 - Keep views declarative: business logic lives in observable view models and in
