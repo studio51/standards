@@ -4,7 +4,7 @@ Canonical `README`, `LICENSE`, `COPYRIGHT`, `AGENTS.md`, GitHub meta files, and 
 
 ## Navigation
 
-This repository adheres to the [Studio51 Solutions Common Standard v1](standards/common/v1/STANDARD.md), with each section documented properly in its own file.
+This repository adheres to the [Studio51 Solutions Common Standard v2](standards/common/v2/STANDARD.md), with each section documented properly in its own file.
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Install & setup](docs/INSTALL.md)
@@ -16,16 +16,19 @@ This repository adheres to the [Studio51 Solutions Common Standard v1](standards
 
 Standards are versioned in directories under [`standards/`](standards/); a new
 version is a new directory, and published versions are only ever errata-fixed.
-See the [Common Standard](standards/common/v1/STANDARD.md) for the versioning
-model and how a repo declares adherence.
+See the [Common Standard](standards/common/v2/STANDARD.md) for the versioning
+model and how a repo declares adherence. v2 lands work straight on the
+integration branch, as the owner's own signed commits with no co-author, merge
+commits only, and the latest of every dependency; v1 stays published for repos
+that haven't migrated yet.
 
 | Standard | Current | Status |
 |---|---|---|
-| [Common](standards/common/v1/STANDARD.md) | v1 | active |
-| [API Gem](standards/api-gem/v1/STANDARD.md) | v1 | active |
-| [App (Rails)](standards/app-rails/v1/STANDARD.md) | v1 | active |
-| [App (Next.js)](standards/app-nextjs/v1/STANDARD.md) | v1 | active |
-| [App (Swift)](standards/app-swift/v1/STANDARD.md) | v1 | active |
+| [Common](standards/common/v2/STANDARD.md) | v2 | active |
+| [API Gem](standards/api-gem/v2/STANDARD.md) | v2 | active |
+| [App (Rails)](standards/app-rails/v2/STANDARD.md) | v2 | active |
+| [App (Next.js)](standards/app-nextjs/v2/STANDARD.md) | v2 | active |
+| [App (Swift)](standards/app-swift/v2/STANDARD.md) | v2 | active |
 | [Tool](standards/tool/v1/STANDARD.md) | v1 | draft |
 
 ### Repository registry
@@ -34,13 +37,13 @@ model and how a repo declares adherence.
 > ledger of adoption across the `studio51` and `games-directory` organisations,
 > updated whenever a repo is created, migrated, or archived. `none` means the
 > repo has not yet been brought onto a standard; migrating the backlog is
-> tracked work, one PR per repo.
+> tracked work, one repo at a time.
 
 #### studio51
 
 | Repository | Standard | Version | Status | Notes |
 |---|---|---|---|---|
-| [standards](https://github.com/studio51/standards) | common | v1 | active | this repo — defines the standards |
+| [standards](https://github.com/studio51/standards) | common | v2 | active | this repo, defines the standards |
 | [radulescuvlad.dev](https://github.com/studio51/radulescuvlad.dev) | app-nextjs | v1 | active | personal site (vladthe.dev); reference implementation for the App (Next.js) standard |
 | [snapshield-marketing](https://github.com/studio51/snapshield-marketing) | app-nextjs | v1 | active | Snapshield marketing site (Next.js) |
 | [snapshield-studio](https://github.com/studio51/snapshield-studio) | app-rails | v1 | active | Snapshield admin dashboard + JSON API (Rails 8 · Hotwire · Avo) |

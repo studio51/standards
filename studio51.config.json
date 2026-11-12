@@ -16,11 +16,11 @@
     "stack": "rails"
   },
   "standards": {
-    "common": "v1",
-    "api-gem": "v1",
-    "app-rails": "v1",
-    "app-nextjs": "v1",
-    "app-swift": "v1",
+    "common": "v2",
+    "api-gem": "v2",
+    "app-rails": "v2",
+    "app-nextjs": "v2",
+    "app-swift": "v2",
     "tool": "v1"
   },
   "licenses": ["MIT", "Apache-2.0", "Proprietary"],

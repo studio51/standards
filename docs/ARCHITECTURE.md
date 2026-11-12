@@ -8,15 +8,16 @@
 standards/
 ├── README.md               # Navigation + standards index + org-wide repository registry
 ├── standards/              # the versioned standards themselves
-│   └── <slug>/<version>/STANDARD.md   # common, api-gem, app, tool — v1, v2, …
+│   └── <slug>/<version>/STANDARD.md   # common, api-gem, app-*, tool: v1, v2, …
 ├── studio51.config.json    # org-wide defaults (name, author, email, standards, licenses, stacks)
 ├── schema/                 # JSON Schema for studio51.config.json
 ├── TOKENS.md               # the {{TOKEN}} system used by every template
 ├── templates/
 │   ├── common/             # stack-agnostic files (always applied), incl. README + docs/
 │   ├── licenses/           # MIT, Apache-2.0, Proprietary
-│   └── stacks/             # js-vanilla, js-react, rails, rails-hotwire, ruby-gem, python, docker
-└── cli/                    # the Node scaffolder (npx @studio51/create)
+│   └── stacks/             # js-vanilla, js-react, rails, rails-hotwire, ruby-gem, python, swift, docker, demo
+├── rubocop-studio51/       # the house RuboCop cops every Ruby repo loads
+└── cli/                    # the Node scaffolder (npx @studio51/create): create, update, settings
 ```
 
 ## Versioned standards
@@ -28,7 +29,7 @@ are only errata-fixed, and repos migrate deliberately. The current version per
 slug lives in `studio51.config.json` (`standards` map) and feeds the
 `{{STANDARD_*}}` tokens. The [README](../README.md) indexes the standards
 under **Navigation** and carries the org-wide registry of which repo adheres
-to which version — that registry exists only in this repo.
+to which version; that registry exists only in this repo.
 
 ## How generation works
 
@@ -48,10 +49,14 @@ can open any repo and know exactly where things live:
 - **docs/**: `ARCHITECTURE.md`, `INSTALL.md`, `USAGE.md` carry the detail. All the
   prose the README used to hold lives here, each section in its own file.
 - **LICENSE** + **COPYRIGHT**: chosen per repo (MIT / Apache-2.0 / Proprietary).
-- **AGENTS.md**: identical conventions block plus a stack-specific section.
-  `CLAUDE.md`, `CURSOR.md`, and `CODEX.md` are thin pointers that direct each
-  agent to adhere to `AGENTS.md`; only agent-specific instructions live in them.
-- **.github/**: issue/PR templates, CODEOWNERS, dependabot, CI, and the standards check.
+- **AGENTS.md**: identical conventions block, a stack-specific section, and a
+  **This repository** section the repo owns. `CLAUDE.md`, `CURSOR.md`, and
+  `CODEX.md` are thin pointers that direct each agent to adhere to `AGENTS.md`;
+  only agent-specific instructions live in them.
+- **.githooks/commit-msg** and **.claude/settings.json**: the commit rules,
+  enforced before a commit exists, and Claude Code's attribution switched off.
+- **.github/**: issue/PR templates, CODEOWNERS, dependabot, CI, the standards
+  check (README, required files, commits), and `settings.yml`.
 - **Hygiene**: `.editorconfig`, `.gitattributes`, `CHANGELOG.md`, `SECURITY.md`, `CONTRIBUTING.md`.
 
 ## Key decisions
@@ -59,6 +64,12 @@ can open any repo and know exactly where things live:
 - **`common/` is always applied; stacks layer on top.** Detection picks the stack,
   but it is only advisory: the user confirms before anything is written.
 - **`update` is content-safe.** It re-syncs only managed meta files and never
-  touches `README.md`, `docs/`, or `CHANGELOG.md`, so project prose is never lost.
+  touches `README.md`, `docs/`, or `CHANGELOG.md`; inside managed files it keeps
+  the repo-owned regions (the **This repository** section, the agent pointer
+  tails), so project prose is never lost.
+- **Workflows start current.** The CLI raises every action pin to its latest
+  major as it writes, so the templates' own pins only matter offline.
+- **Settings are applied, not just declared.** `settings` sets the repository
+  options and the signed-commit ruleset through `gh`; `settings.yml` mirrors it.
 - **The README is enforced, not just suggested.** A standards CI check fails the
   build if the README grows any section beyond `Navigation` and `License`.

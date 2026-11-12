@@ -13,7 +13,7 @@ future repos.
 The standards themselves are versioned documents under
 `standards/<slug>/<version>/STANDARD.md` (common, api-gem, app-rails, tool); the
 [README](README.md) indexes them under **Navigation** and carries the
-org-wide repository registry — which exists **only** in this repo.
+org-wide repository registry, which exists **only** in this repo.
 
 ## Golden rules
 
@@ -43,13 +43,20 @@ org-wide repository registry — which exists **only** in this repo.
 
 ## Conventions (the Studio51 standard, mirrored into generated repos)
 
-- Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`…); commits verified.
-- Branches: `feature/…`, `fix/…`, `chore/…`. Never commit to `main`; open a PR
-  for every change, however small.
-- Pull requests are atomic (one thing each) with a clear description.
+These follow the [Common Standard v2](standards/common/v2/STANDARD.md).
+
+- **Commit straight to `main`.** No pull request and no pushed feature branch;
+  a local worktree or branch is merged in with `git merge` (never rebased or
+  squashed), pushed, and deleted.
+- **One author: the owner, signed.** Commit with the configured git identity and
+  signing key. Never a co-author of any kind: no `Co-authored-by:` trailer, no
+  "Generated with …" line, no AI tool as author, no `--author`, and never
+  `--no-gpg-sign`.
+- **Meaningful Conventional Commits** (`feat:`, `fix:`, `docs:`, `chore:`…): one
+  logical change each, a subject that names the change, a body that says why.
+- **Merge commits only;** never squash, rebase, or force-push.
 - Update `CHANGELOG.md` under **Unreleased** for any user-facing change.
-- Never commit secrets. Never set an AI tool as the git author or co-author.
-- Never use em dashes; use a comma, or reword, instead.
+- Never commit secrets. Never use em dashes; use a comma, or reword, instead.
 
 ## Before you finish
 
@@ -57,3 +64,7 @@ org-wide repository registry — which exists **only** in this repo.
 - [ ] `common/` stayed stack-agnostic
 - [ ] If you added a token, it's documented in `TOKENS.md`
 - [ ] If you added a template file, the CLI copy/merge logic accounts for it
+- [ ] `templates/common/.github/settings.yml` and `cli/lib/settings.js` still agree
+- [ ] Every commit signed by the owner, with no co-author or AI attribution
+- [ ] Everything pushed to `main`; worktrees removed, local branches deleted,
+      `git status` clean
