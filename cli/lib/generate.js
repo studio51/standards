@@ -31,12 +31,13 @@ const MANAGED_META = [
   '.vscode/extensions.json',
   '.vscode/settings.json',
   '.githooks/commit-msg',
+  '.prettierignore',
   '.claude/settings.json',
 ];
 const isManagedMeta = (dest) => MANAGED_META.includes(dest) || dest.startsWith('.github/');
 
 // When more than one stack contributes the same file, how do we combine them?
-const LINE_MERGE = new Set(['.gitignore', '.dockerignore']);
+const LINE_MERGE = new Set(['.gitignore', '.dockerignore', '.prettierignore']);
 
 // JSON files the standard only adds keys to. An existing copy is merged, not
 // replaced, so a repo's own settings (permissions, hooks) survive.
@@ -264,6 +265,7 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
       if (!o.content || !existsSync(abs)) continue;
       // Keep the repo's own attributes, after the standard's so they win.
       if (o.dest === '.gitattributes') o.content = mergeLines([o.content, readFileSync(abs, 'utf8')]);
+      else if (o.dest === '.prettierignore') o.content = mergeLines([readFileSync(abs, 'utf8'), o.content]);
       else if (o.dest === '.editorconfig') o.content = mergeEditorconfig(readFileSync(abs, 'utf8'), o.content);
     }
   const actions = offline ? null : await resolveActionMajors(outputs);
