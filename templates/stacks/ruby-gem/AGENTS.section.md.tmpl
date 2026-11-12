@@ -26,8 +26,8 @@ developer. Lint is the source of truth: `bundle exec rubocop` (omakase + the
 `rubocop-studio51` house cops) must be clean.
 
 - **Comments are many, and they are part of the standard.** Every class/module
-  gets a narrative doc block; every method gets prose plus YARD tags — a
-  `@param` for each argument, a `@return`, and `@yieldparam` if it yields —
+  gets a narrative doc block; every method gets prose plus YARD tags: a
+  `@param` for each argument, a `@return`, and `@yieldparam` if it yields,
   including `initialize`.
 - **Comment-block shape** (`Studio51/CommentBlockTermination`): separate prose
   from `@` tag lines with one bare `#`; when a block ends in prose right above
@@ -43,10 +43,10 @@ developer. Lint is the source of truth: `bundle exec rubocop` (omakase + the
   `Layout/EmptyLinesAround{Module,Class}Body` are disabled in `.rubocop.yml` for this).
 - **Trailing inline comments on `attr_*` and grouped constants**, not a paragraph above.
 - **Hash-value shorthand (Ruby ≥ 3.1, `Style/HashSyntax` shorthand `always`):**
-  call `foo(headers:)` when a local named `headers` is in scope — never
+  call `foo(headers:)` when a local named `headers` is in scope, never
   `foo(headers: headers)`. Watch the shadowing trap: inside a method whose
   *parameter* has the same name as the reader you mean, shorthand resolves to
-  the parameter — spell those call sites out explicitly.
+  the parameter; spell those call sites out explicitly.
 - **`.freeze` string-literal constants** (`SERVICE = "authapi.v1.API".freeze`).
 - **Redact secrets in `inspect`.** Any object holding credentials (tokens,
   passwords, keys) overrides `#inspect` so consoles, logs, and error reporters

@@ -37,14 +37,14 @@ Layout/EmptyLinesAroundClassBody:
 Layout/EmptyLineAfterGuardClause:
   Enabled: true
 
-# Studio51 style: interpolations breathe — `"#{ value }"`, never `"#{value}"`.
+# Studio51 style: interpolations breathe: `"#{ value }"`, never `"#{value}"`.
 # Omakase disables this; we want it on.
 Layout/SpaceInsideStringInterpolation:
   Enabled: true
   EnforcedStyle: space
 
 # Studio51 style: when a local variable matches the keyword/hash key, use the
-# Ruby 3.1+ shorthand — `f(credentials:)`, never `f(credentials: credentials)`.
+# Ruby 3.1+ shorthand: `f(credentials:)`, never `f(credentials: credentials)`.
 # (Omakase leaves this at `either`, which accepts both and enforces neither.)
 Style/HashSyntax:
   EnforcedShorthandSyntax: always
@@ -56,7 +56,7 @@ Studio51/CommentBlockTermination:
   Include:
     - "lib/**/*.rb"
 
-# Studio51 flow: a multi-statement method body breathes — empty line before
+# Studio51 flow: a multi-statement method body breathes: empty line before
 # its final expression.
 Studio51/EmptyLineBeforeTrailingExpression:
   Enabled: true

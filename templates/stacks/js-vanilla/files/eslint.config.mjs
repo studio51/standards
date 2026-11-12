@@ -1,14 +1,14 @@
-// Studio51 · js-vanilla: ESLint flat config — the "breathing" house style.
+// Studio51 · js-vanilla: ESLint flat config for the "breathing" house style.
 //
 // Prettier (.prettierrc.json) owns mechanical formatting (quotes, semicolons,
 // width, indentation). It *preserves* author blank lines but never *inserts*
-// them, so the breathing layout is enforced here instead — the JS twin of the
+// them, so the breathing layout is enforced here instead: the JS twin of the
 // Ruby cop `Studio51/EmptyLineBeforeTrailingExpression` in `rubocop-studio51`.
 //
 // Self-contained on purpose: zero external imports, so a dependency-free
 // js-vanilla repo (no package.json) can run it with just `npx eslint .`.
 
-// Whether a statement is "setup" — work that prepares state rather than the
+// Whether a statement is "setup": work that prepares state rather than the
 // value a function produces. A run of these stays tight (mirrors the Ruby cop
 // leaving an `initialize`/constructor's parallel assignments unseparated).
 function isSetup(node) {
@@ -23,7 +23,7 @@ const studio51 = {
   meta: { name: 'eslint-plugin-studio51', version: '0.1.0' },
   rules: {
     // Let a multi-statement function breathe: an empty line before its final
-    // expression — unless that final line and the one above it are both setup
+    // expression, unless that final line and the one above it are both setup
     // (parallel assignments produce no value to separate). A comment line above
     // already counts as breathing room.
     'empty-line-before-trailing-expression': {
@@ -32,7 +32,7 @@ const studio51 = {
         fixable: 'whitespace',
         schema: [],
         messages: {
-          breathe: 'Let the function breathe — add an empty line before its final expression.',
+          breathe: 'Let the function breathe: add an empty line before its final expression.',
         },
       },
       create(context) {
@@ -47,8 +47,8 @@ const studio51 = {
           if (isSetup(last) && isSetup(prev)) return;
 
           // Separate only when directly adjacent (gap of one line). A gap of 0
-          // means they share a line; a gap of 2+ means a blank line — or a
-          // comment, which the Ruby cop counts as breathing — already sits there.
+          // means they share a line; a gap of 2+ means a blank line, or a
+          // comment, which the Ruby cop counts as breathing, already sits there.
           if (last.loc.start.line - prev.loc.end.line !== 1) return;
 
           const firstToken = sourceCode.getFirstToken(last);

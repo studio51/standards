@@ -43,7 +43,7 @@ Studio51/CommentBlockTermination:
     - "app/**/*.rb"
     - "lib/**/*.rb"
 
-# Studio51 flow: a multi-statement method body breathes — empty line before
+# Studio51 flow: a multi-statement method body breathes: empty line before
 # its final expression.
 Studio51/EmptyLineBeforeTrailingExpression:
   Enabled: true
