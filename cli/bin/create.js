@@ -40,6 +40,7 @@ Options:
   --dir <path>           target directory (default: current directory)
   --force                overwrite existing files (create mode)
   --dry-run              show what would be written, write nothing
+  --offline              keep the templates' action versions (skip the GitHub lookup)
   --yes, -y              accept detected/default answers, no prompts
   --help, -h             this help
 `;
@@ -52,7 +53,7 @@ function parseArgs(argv) {
     else if (a === '-h') args.flags.help = true;
     else if (a.startsWith('--')) {
       const key = a.slice(2);
-      if (['force', 'dry-run', 'yes', 'help'].includes(key)) args.flags[key] = true;
+      if (['force', 'dry-run', 'offline', 'yes', 'help'].includes(key)) args.flags[key] = true;
       else args.flags[key] = argv[++i];
     } else args._.push(a);
   }
@@ -129,7 +130,7 @@ async function main() {
   console.log(`  standard:   ${tokens.STANDARD_LABEL} ${tokens.STANDARD_VERSION}`);
   console.log(`  copyright:  ${tokens.YEAR_RANGE} ${tokens.LEGAL_NAME}\n`);
 
-  const result = generate({
+  const result = await generate({
     templatesDir: TEMPLATES_DIR,
     config,
     tokens,
@@ -137,7 +138,15 @@ async function main() {
     mode,
     force: f.force,
     dryRun: f['dry-run'],
+    offline: f.offline,
   });
+
+  if (result.actions) {
+    const { checked, resolved, bumps } = result.actions;
+    if (checked && !resolved)
+      console.log('  ! could not reach GitHub, kept the templates\' action versions');
+    for (const b of bumps) console.log(`  ↑ ${b.action} v${b.from} → v${b.to} (latest major)`);
+  }
 
   const tag = f['dry-run'] ? '(dry-run) would write' : 'wrote';
   for (const dest of result.written) console.log(`  ✓ ${tag} ${dest}`);

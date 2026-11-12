@@ -10,6 +10,7 @@ import {
 import { join, dirname, relative } from 'node:path';
 import { render } from './render.js';
 import { resolveStacks } from './tokens.js';
+import { resolveActionMajors } from './actions.js';
 
 // Files that `update` may regenerate in place; they hold no project-specific
 // prose, so refreshing them just re-syncs the standard.
@@ -172,9 +173,10 @@ function resolveOutputs({ templatesDir, stacks, tokens }) {
   return outputs;
 }
 
-export function generate({ templatesDir, tokens, answers, mode, force, dryRun }) {
+export async function generate({ templatesDir, tokens, answers, mode, force, dryRun, offline }) {
   const stacks = resolveStacks(join(templatesDir, 'stacks'), answers.stack, answers.addons || []);
   const outputs = resolveOutputs({ templatesDir, stacks, tokens });
+  const actions = offline ? null : await resolveActionMajors(outputs);
 
   const written = [];
   const skipped = [];
@@ -196,5 +198,5 @@ export function generate({ templatesDir, tokens, answers, mode, force, dryRun })
     }
     written.push(dest);
   }
-  return { written, skipped, stacks };
+  return { written, skipped, stacks, actions };
 }
