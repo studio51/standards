@@ -205,7 +205,9 @@ missing:
 
 Every repo in the `studio51` and `games-directory` organisations is configured
 identically. `npx @studio51/create settings` applies the configuration through
-the GitHub API; `.github/settings.yml` mirrors it for the GitHub "Settings" app.
+the GitHub API, and a daily workflow in the standards repo re-applies it to every
+repo in both organisations, so new repos are brought in line within a day and
+drift is put back. `.github/settings.yml` mirrors it for the GitHub "Settings" app.
 
 - **Merge commits only:** merge commits allowed; squash merging and rebase
   merging switched off. The default merge commit message is the pull request

@@ -1,0 +1,31 @@
+name: Enforce repository settings
+# Re-applies the standard repository settings (merge commits only, head
+# branches deleted on merge, the signed-commit ruleset) to every unarchived
+# repo in the orgs, daily: new repos are brought in line within a day, and a
+# setting changed by hand is put back. See docs/USAGE.md, "settings".
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - name: Apply the standard settings to every repo
+        env:
+          # A token that administers every repo in both orgs; GITHUB_TOKEN can't.
+          GH_TOKEN: ${{ secrets.STANDARDS_ADMIN_TOKEN }}
+          # Repos with a stated exception, comma-separated owner/name.
+          EXCLUDE: ${{ vars.SETTINGS_EXCLUDE }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::notice::STANDARDS_ADMIN_TOKEN is not set, so nothing was enforced."
+            exit 0
+          fi
+          node cli/bin/create.js settings --org studio51,games-directory --exclude "$EXCLUDE"

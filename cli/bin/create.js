@@ -15,7 +15,7 @@ import {
   detectRepoName,
 } from '../lib/detect.js';
 import { generate, enableHooks } from '../lib/generate.js';
-import { resolveRepo, applySettings } from '../lib/settings.js';
+import { resolveRepo, applySettings, listRepos } from '../lib/settings.js';
 import { MANIFEST, readManifest, inferManifest, writeManifest } from '../lib/manifest.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -44,6 +44,8 @@ Options:
   --visibility <vis>     public | private (default: detected/config)
   --dir <path>           target directory (default: current directory)
   --repo <owner/name>    settings: the repo to configure (default: the target's git remote)
+  --org <a,b>            settings: every unarchived repo of these orgs or users instead
+  --exclude <o/n,...>    settings: repos to leave alone (a stated exception)
   --force                overwrite existing files (create mode); in update mode,
                          also replace an AGENTS.md that has no "This repository" section
   --dry-run              show what would be written, write nothing
@@ -76,10 +78,30 @@ async function main() {
   const targetDir = resolve(args.flags.dir || process.cwd());
 
   if (args._[0] === 'settings') {
-    const repo = resolveRepo(targetDir, args.flags.repo);
-    console.log(`\nStudio51 standards → SETTINGS${args.flags['dry-run'] ? ' (dry-run)' : ''}`);
-    console.log(`  repo: ${repo}\n`);
-    for (const line of applySettings({ repo, dryRun: args.flags['dry-run'] })) console.log(`  ${line}`);
+    const dryRun = args.flags['dry-run'];
+    const exclude = new Set((args.flags.exclude || '').split(',').filter(Boolean));
+    const repos = args.flags.org
+      ? listRepos(args.flags.org.split(','))
+      : [resolveRepo(targetDir, args.flags.repo)];
+    console.log(`\nStudio51 standards → SETTINGS${dryRun ? ' (dry-run)' : ''}`);
+    let failed = 0;
+    for (const repo of repos) {
+      if (exclude.has(repo)) {
+        console.log(`\n  ${repo}: excluded`);
+        continue;
+      }
+      console.log(`\n  ${repo}`);
+      try {
+        for (const line of applySettings({ repo, dryRun })) console.log(`    ${line}`);
+      } catch (err) {
+        failed++;
+        console.log(`    ! ${String(err.stderr || err.message).trim().split('\n')[0]}`);
+      }
+    }
+    if (failed) {
+      console.log(`\n${failed} repo(s) could not be configured.`);
+      process.exitCode = 1;
+    }
     return;
   }
 

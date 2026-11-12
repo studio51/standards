@@ -71,7 +71,19 @@ off), head branches deleted on merge, and the **Studio51 standard** ruleset
 npx @studio51/create settings --dry-run   # show what would change
 npx @studio51/create settings             # the repo behind the current directory
 npx @studio51/create settings --repo games-directory/api.halo
+npx @studio51/create settings --org studio51,games-directory --exclude games-directory/games.directory
 ```
+
+### Enforced daily
+
+`.github/workflows/enforce-settings.yml` in this repo runs `settings --org
+studio51,games-directory` every morning, so a new repo is brought in line within
+a day and a setting changed by hand is put back. It needs a
+`STANDARDS_ADMIN_TOKEN` secret, a token that administers every repo in both
+orgs (a classic token with the `repo` scope works); without it the run does
+nothing. Repos with a stated exception go in the `SETTINGS_EXCLUDE` variable,
+comma-separated. A repo where GitHub doesn't offer rulesets still gets its
+options, and the run reports the missing ruleset.
 
 ## Options
 

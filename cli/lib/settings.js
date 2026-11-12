@@ -63,6 +63,16 @@ function exists(path) {
   }
 }
 
+// Every repo in the given orgs (or users) that can still be changed, i.e. not
+// archived, as owner/name.
+export function listRepos(owners) {
+  return owners.flatMap((owner) =>
+    gh(['repo', 'list', owner, '--limit', '1000', '--no-archived', '--json', 'nameWithOwner', '-q', '.[].nameWithOwner'])
+      .split('\n')
+      .filter(Boolean)
+  );
+}
+
 // The repo to configure: --repo when given, otherwise the one the target
 // directory's git remote points at.
 export function resolveRepo(targetDir, repoFlag) {
@@ -85,18 +95,24 @@ export function applySettings({ repo, dryRun }) {
   if (!Object.keys(changes).length) lines.push('repository settings already standard');
   else if (!dryRun) api('PATCH', `repos/${repo}`, changes);
 
-  const rulesets = api('GET', `repos/${repo}/rulesets?includes_parents=false`) || [];
-  const ours = rulesets.find((r) => r.name === RULESET.name);
-  if (!dryRun) {
-    if (ours) api('PUT', `repos/${repo}/rulesets/${ours.id}`, RULESET);
-    else api('POST', `repos/${repo}/rulesets`, RULESET);
+  // Rulesets can be unavailable on a repo (GitHub plan limits); the repo
+  // options above still apply, and the gap is reported.
+  try {
+    const rulesets = api('GET', `repos/${repo}/rulesets?includes_parents=false`) || [];
+    const ours = rulesets.find((r) => r.name === RULESET.name);
+    if (!dryRun) {
+      if (ours) api('PUT', `repos/${repo}/rulesets/${ours.id}`, RULESET);
+      else api('POST', `repos/${repo}/rulesets`, RULESET);
+    }
+    lines.push(
+      `${ours ? (dryRun ? 'would update' : 'updated') : dryRun ? 'would create' : 'created'} ` +
+        `ruleset "${RULESET.name}" (signed commits, no force push, no deletion on the default branch, develop, main, master)`
+    );
+    for (const other of rulesets.filter((r) => r.name !== RULESET.name))
+      lines.push(`note: ruleset "${other.name}" (${other.enforcement}) also applies; review it by hand`);
+  } catch (err) {
+    lines.push(`! ruleset not applied: ${String(err.stderr || err.message).trim().split('\n')[0]}`);
   }
-  lines.push(
-    `${ours ? (dryRun ? 'would update' : 'updated') : dryRun ? 'would create' : 'created'} ` +
-      `ruleset "${RULESET.name}" (signed commits, no force push, no deletion on the default branch, develop, main, master)`
-  );
-  for (const other of rulesets.filter((r) => r.name !== RULESET.name))
-    lines.push(`note: ruleset "${other.name}" (${other.enforcement}) also applies; review it by hand`);
 
   if (current.default_branch !== 'develop' && exists(`repos/${repo}/branches/develop`))
     lines.push(
