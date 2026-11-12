@@ -271,6 +271,22 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
       skipped.push([dest, 'project content (update skips it)']);
       continue;
     }
+    if (dest === 'railway.json' && !['app', 'service'].includes(answers.type)) {
+      skipped.push([dest, `a ${answers.type} isn't deployed`]);
+      continue;
+    }
+    if (dest === 'LICENSE') {
+      const elsewhere = ['LICENSE.md', 'LICENSE.txt'].find((n) => existsSync(join(answers.targetDir, n)));
+      if (elsewhere && !exists) {
+        skipped.push([dest, `the repo keeps its license in ${elsewhere}`]);
+        continue;
+      }
+      const holder = exists && licenseHolder(readFileSync(destAbs, 'utf8'));
+      if (holder && !holder.includes(tokens.LEGAL_NAME)) {
+        skipped.push([dest, `kept: it names another copyright holder (${holder})`]);
+        continue;
+      }
+    }
     if (JSON_MERGE.has(dest) && exists) {
       const current = readFileSync(destAbs, 'utf8');
       try {
@@ -304,6 +320,11 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
   if (mode === 'update' && refreshAdherence(answers.targetDir, tokens, dryRun))
     written.push('README.md (standard line)');
   return { written, skipped, stacks, actions };
+}
+
+// The copyright holder a license names, if it names one.
+function licenseHolder(text) {
+  return /Copyright\s*(?:\(c\)|©)?\s*\d{4}(?:\s*[–-]\s*\d{4})?,?\s+([^\n.]+)/i.exec(text)?.[1]?.trim() || null;
 }
 
 // The README is project content, except for the sentence declaring which

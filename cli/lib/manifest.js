@@ -71,8 +71,9 @@ export function inferManifest(dir) {
   if (standard) out.standard = standard;
   out.type = type || TYPE_FOR_STANDARD[standard] || undefined;
 
-  if (/^\s*MIT License/i.test(license)) out.license = 'MIT';
-  else if (/Apache License/i.test(license)) out.license = 'Apache-2.0';
+  const head = license.slice(0, 300);
+  if (/\bMIT License\b/i.test(head)) out.license = 'MIT';
+  else if (/Apache License/i.test(head)) out.license = 'Apache-2.0';
   else if (license) out.license = 'Proprietary';
   else if (agentsLicense) out.license = agentsLicense;
 
