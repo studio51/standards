@@ -5,3 +5,8 @@
 - Lint: `npm run lint` · Format: `npm run format` (Prettier). Run both before committing.
 - Components in PascalCase; one component per file. Prefer function components + hooks.
 - TypeScript preferred for new code; keep `tsconfig.json` strict.
+- **Deploy (apps):** Railway, via `railway.json` (`npm start` on `$PORT`); all
+  configuration through environment variables.
+- **Cloudflare & R2:** the official `cloudflare` package for the API (DNS, cache
+  purges); `@aws-sdk/client-s3` for the app's own R2 bucket, with keys filed in a
+  browsable folder tree, never flat random keys.

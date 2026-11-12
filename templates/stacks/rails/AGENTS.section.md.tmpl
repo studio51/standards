@@ -10,6 +10,12 @@
 - Tests: `bundle exec rake` (or `bin/rails test` / `bundle exec rspec`).
 - Lint: `bundle exec rubocop` (run `-A` to auto-correct). RuboCop must be
   >= 1.80 to target Ruby 4.0; older releases crash on the 4.0 parser.
+- **Deploy:** Railway, via `railway.json` (Dockerfile build, `bin/rails db:prepare`
+  before each deploy, `/up` health check). `cloudflare-rails` keeps `request.remote_ip`
+  honest behind Cloudflare.
+- **Storage:** Active Storage's production service is `cloudflare` (R2 through
+  `aws-sdk-s3`, the app's own bucket). File each attachment under its record's folder
+  (see `games.directory`'s `BucketFiled` concern), never at a random key in the root.
 - Follow Rails conventions: skinny controllers, models for domain logic.
 - For gems: bump the version in the gemspec/`version.rb` and update `CHANGELOG.md`
   before release; never edit generated artifacts by hand.

@@ -86,9 +86,13 @@ confirms it (per the Common Standard's code-documentation rules).
   come from environment variables and Rails encrypted credentials
   (`bin/rails credentials:edit`); they are never committed. `.env` is git-ignored
   and `.env.example` documents the shape.
-- **Deployment** uses [Kamal](https://kamal-deploy.org/) (the `.kamal/`
-  directory and `Dockerfile` are part of the repo). Container builds honour the
-  `docker` stack hygiene (`.dockerignore`).
+- **Deployment** is on Railway (Common Standard, "Deployment, domains &
+  storage"): a `railway.json` builds the `Dockerfile`, runs
+  `bin/rails db:prepare` before each deploy, and health-checks `/up`. Puma
+  listens on `$PORT`. Container builds honour the `docker` stack hygiene
+  (`.dockerignore`). Kamal is not used; a repo still on it moves to Railway.
+- **Cloudflare** fronts the app: `cloudflare-rails` is in the Gemfile so
+  `request.remote_ip` is the visitor, not Cloudflare's proxy.
 
 ## Background jobs, storage & observability
 
@@ -96,8 +100,13 @@ confirms it (per the Common Standard's code-documentation rules).
   named queues by weight rather than overloading the default (the reference app
   runs a `regular` queue and a heavier `splash` queue, each with its own
   `config/sidekiq.*.yml` and `Procfile` entry).
-- **File storage** uses ActiveStorage; production blobs go to object storage
-  (e.g. S3). The `storage/` directory is git-ignored except its `.keep`.
+- **File storage** uses Active Storage on Cloudflare R2: a `cloudflare` service
+  in `config/storage.yml` (the `S3` service with the
+  `https://<account>.r2.cloudflarestorage.com` endpoint, `region: auto`, and the
+  app's own bucket) is the production service. Every attachment is filed under
+  its record's folder rather than Active Storage's flat random key, as the
+  reference app's `BucketFiled` concern does; R2 is never a dump. The
+  `storage/` directory is git-ignored except its `.keep`.
 - **Error and performance monitoring** uses Sentry (`sentry-ruby` /
   `sentry-rails`). Wire the DSN through environment configuration, not the repo.
 

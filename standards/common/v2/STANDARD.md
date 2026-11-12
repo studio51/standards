@@ -22,6 +22,9 @@
   version constraints in manifests.
 - **Repository settings are applied by the CLI** (`npx @studio51/create
   settings`), including the signed-commit ruleset.
+- **Railway, Cloudflare and R2:** every app is ready to deploy on Railway, talks
+  to Cloudflare for domains, CDN and storage, and keeps persistent files in its
+  own R2 bucket, filed so a person can browse them.
 
 ## How standards are versioned
 
@@ -221,6 +224,71 @@ the GitHub API; `.github/settings.yml` mirrors it for the GitHub "Settings" app.
   merged linked pull requests (GitHub defaults, kept on).
 - **Issues, Discussions, Projects, and Wiki** all enabled.
 - **An issue template** present, scaffolded under `.github/ISSUE_TEMPLATE/`.
+
+## Deployment, domains & storage
+
+These apply to everything that runs: Rails, Node, Next.js, workers. A repo that
+deploys or stores differently says so in the **This repository** section of its
+`AGENTS.md`.
+
+### Railway
+
+Every app is prepared for deployment on [Railway](https://railway.com):
+
+- **`railway.json` at the root** holds the deploy as code: the builder (the
+  `Dockerfile` when there is one), the pre-deploy step (migrations), the health
+  check path, and the restart policy. Nothing about a deploy lives only in the
+  Railway dashboard.
+- **Configuration comes from the environment** (Railway variables, plus Rails
+  encrypted credentials where the stack has them); `.env.example` documents every
+  variable. The app listens on `$PORT`, logs to stdout, and answers a health
+  check.
+- **No persistent state on the container's disk.** Anything that must survive a
+  deploy goes to the database or to R2.
+- Kamal and other deploy tooling are not used for new work; a repo still on them
+  moves to Railway when it is next touched.
+
+### Cloudflare
+
+Cloudflare runs our domains (DNS), CDN, and storage. Every app is set up to talk
+to it through its ecosystem's libraries:
+
+- **Rails:** `cloudflare-rails`, so `request.remote_ip` is the visitor rather than
+  Cloudflare's proxy, and `aws-sdk-s3` for R2 through Active Storage.
+- **Node / Next.js:** `@aws-sdk/client-s3` for R2, and the official `cloudflare`
+  package for the API (DNS, cache purges).
+- Public files are served through Cloudflare's CDN on the app's own domain, not
+  from the bucket's raw endpoint. API tokens are scoped to the one app and the
+  least it needs, and live in the environment.
+
+### R2
+
+When an app needs persistent file storage, it uses Cloudflare R2:
+
+- **Each app has its own bucket**, named after the app, never shared with
+  another app. A second bucket for a clearly different purpose is named after
+  the app too (`games-directory-cache`).
+- **R2 is never a dump.** Studio51 mounts its buckets as a physical drive with
+  in-house software, so every file has to be easy to find by browsing. Keys form
+  a folder tree that follows the data:
+
+  ```
+  <area>/<owner>/<record>/<role>-<suffix>.<ext>
+
+  collectibles/1874/2201/original-8f3a2b91.jpg
+  collectibles/1874/2201/enhanced-4c1de770.png
+  rocket-league/matches/2026/11/12/<match-id>/replay-1a2b3c4d.replay
+  ```
+
+  A plural, kebab-case folder for each area of the app at the top; ids or slugs
+  that nest the way the records nest; a filename that says what the file is,
+  with a short random suffix so two uploads never overwrite each other, and
+  always its extension.
+- **Never** a flat key of random characters at the bucket root (Active Storage's
+  default), catch-all folders (`uploads/`, `files/`, `misc/`, `tmp/`), or folders
+  named after hashes. Deleting a record deletes its folder.
+- The reference implementation is `games.directory`'s `BucketFiled` concern,
+  which files each Active Storage attachment under its record's folder.
 
 ## Currency policy
 

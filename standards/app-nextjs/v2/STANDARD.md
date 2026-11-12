@@ -120,6 +120,20 @@ Per the Common Standard, pin the latest stable runtime and stay current:
   keep it moving. Nothing is held back or lowered without an issue justifying
   the why.
 
+## Deployment, domains & storage
+
+Per the Common Standard:
+
+- **Deployed on Railway** with a `railway.json` (Railpack builder, `npm start`
+  serving the production build on `$PORT`), configured entirely through
+  environment variables.
+- **Cloudflare** for the domain and CDN; the official `cloudflare` package for
+  its API (cache purges, DNS).
+- **Persistent files in R2**, the app's own bucket, through
+  `@aws-sdk/client-s3`, filed in a browsable folder tree
+  (`<area>/<owner>/<record>/<role>-<suffix>.<ext>`), never flat random keys.
+  A purely static site with nothing to store needs no bucket.
+
 ## Performance, SEO & accessibility
 
 - **Performance budgets matter.** Use `next/image` and `next/font`, code-split
