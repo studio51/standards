@@ -1,11 +1,29 @@
+# Studio51 standard Dependabot config.
+#
+# One grouped pull request per ecosystem each week instead of one per
+# package, titled as a Conventional Commit (chore(deps): …). Security
+# updates stay ungrouped so a fix never waits on an unrelated bump.
 version: 2
 updates:
   - package-ecosystem: npm
     directory: "/"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      npm:
+        patterns: ["*"]
     open-pull-requests-limit: 10
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      github-actions:
+        patterns: ["*"]
+    open-pull-requests-limit: 10

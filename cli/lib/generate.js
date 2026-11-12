@@ -86,8 +86,10 @@ function mergeLines(contents) {
   return out.join('\n') + '\n';
 }
 
-// Merge dependabot `updates:` blocks, deduped by package-ecosystem.
+// Merge dependabot `updates:` blocks, deduped by package-ecosystem. The first
+// overlay's leading comment header is kept.
 function mergeDependabot(contents) {
+  const header = (contents[0].match(/^(#.*\n)+/) || [''])[0];
   const blocks = [];
   const seenEco = new Set();
   for (const content of contents) {
@@ -100,7 +102,7 @@ function mergeDependabot(contents) {
       blocks.push(m[1].replace(/\s+$/, ''));
     }
   }
-  return `version: 2\nupdates:\n${blocks.join('\n')}\n`;
+  return `${header}version: 2\nupdates:\n${blocks.join('\n')}\n`;
 }
 
 const BINARY = /\.(png|jpe?g|gif|ico|woff2?|pdf)$/i;
