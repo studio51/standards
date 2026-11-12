@@ -14,6 +14,7 @@ import {
   detectRepoName,
 } from '../lib/detect.js';
 import { generate, enableHooks } from '../lib/generate.js';
+import { resolveRepo, applySettings } from '../lib/settings.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, '..', '..');
@@ -25,6 +26,8 @@ const HELP = `studio51-create: scaffold Studio51 standard files
 Usage:
   npx @studio51/create [options]            scaffold into the current directory
   npx @studio51/create update [options]     re-sync managed standard files only
+  npx @studio51/create settings [options]   apply the standard GitHub repository settings
+                                            and signed-commit ruleset (needs gh, repo admin)
 
 Options:
   --name <name>          project / repo name (default: detected)
@@ -32,12 +35,13 @@ Options:
   --tagline <text>       one-line tagline for the README
   --description <text>   short paragraph for the README/AGENTS
   --type <type>          library | app | plugin | tool | service
-  --stack <stack>        js-vanilla | js-react | rails | rails-hotwire | ruby-gem | python (default: detected)
-  --standard <slug>      common | api-gem | app-rails | app-nextjs | tool (default: derived from name/type/stack)
+  --stack <stack>        js-vanilla | js-react | rails | rails-hotwire | ruby-gem | python | swift (default: detected)
+  --standard <slug>      common | api-gem | app-rails | app-nextjs | app-swift | tool (default: derived from name/type/stack)
   --addons <list>        comma-separated, e.g. docker,demo
   --license <license>    MIT | Apache-2.0 | Proprietary (default: from config)
   --visibility <vis>     public | private (default: detected/config)
   --dir <path>           target directory (default: current directory)
+  --repo <owner/name>    settings: the repo to configure (default: the target's git remote)
   --force                overwrite existing files (create mode); in update mode,
                          also replace an AGENTS.md that has no "This repository" section
   --dry-run              show what would be written, write nothing
@@ -69,6 +73,14 @@ async function main() {
   const config = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
   const targetDir = resolve(args.flags.dir || process.cwd());
 
+  if (args._[0] === 'settings') {
+    const repo = resolveRepo(targetDir, args.flags.repo);
+    console.log(`\nStudio51 standards → SETTINGS${args.flags['dry-run'] ? ' (dry-run)' : ''}`);
+    console.log(`  repo: ${repo}\n`);
+    for (const line of applySettings({ repo, dryRun: args.flags['dry-run'] })) console.log(`  ${line}`);
+    return;
+  }
+
   // --- detection ---
   const detectedStack = detectStack(targetDir) || config.defaults.stack;
   const detectedName = detectRepoName(targetDir);
@@ -94,7 +106,7 @@ async function main() {
     f.visibility || (await ask('Visibility [public|private]', config.defaults.visibility));
   const standard =
     f.standard ||
-    (await ask('Standard [common|api-gem|app-rails|app-nextjs|tool]', deriveStandard({ name, type, stack })));
+    (await ask('Standard [common|api-gem|app-rails|app-nextjs|app-swift|tool]', deriveStandard({ name, type, stack })));
   const tagline = f.tagline || (await ask('Tagline', ''));
   const description = f.description || (await ask('Description', tagline));
 
