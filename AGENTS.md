@@ -35,10 +35,11 @@ org-wide repository registry — which exists **only** in this repo.
 - **Keep the registry honest.** Any repo created, migrated, or archived in the
   `studio51` / `games-directory` orgs gets its row updated in the
   [README](README.md) repository registry.
-- **Ruby is always the latest stable (currently 4.0.5).** Studio51 does not
+- **Ruby is always the latest stable (currently 4.0.9).** Studio51 does not
   maintain older Rubies (we stay within ~2 patch/minor releases of upstream);
-  never lower a pin, CI matrix, or `required_ruby_version` without the
-  issue + PR that justifies it.
+  the number lives only in the stack templates' `.ruby-version` /
+  `.tool-versions`, and CI reads it from there. Never lower a pin or
+  `required_ruby_version` without the issue that justifies it.
 
 ## Conventions (the Studio51 standard, mirrored into generated repos)
 
