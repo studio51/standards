@@ -38,7 +38,8 @@ Options:
   --license <license>    MIT | Apache-2.0 | Proprietary (default: from config)
   --visibility <vis>     public | private (default: detected/config)
   --dir <path>           target directory (default: current directory)
-  --force                overwrite existing files (create mode)
+  --force                overwrite existing files (create mode); in update mode,
+                         also replace an AGENTS.md that has no "This repository" section
   --dry-run              show what would be written, write nothing
   --offline              keep the templates' action versions (skip the GitHub lookup)
   --yes, -y              accept detected/default answers, no prompts

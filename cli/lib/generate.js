@@ -43,6 +43,19 @@ const LINE_MERGE = new Set(['.gitignore', '.dockerignore']);
 // replaced, so a repo's own settings (permissions, hooks) survive.
 const JSON_MERGE = new Set(['.claude/settings.json']);
 
+// Repo-owned regions of managed files. Rewriting the file keeps the repo's own
+// text in them: the "This repository" section of AGENTS.md, and everything
+// below the marker line in the agent pointer files.
+const REPO_SECTION = /<!-- REPO_SECTION[\s\S]*?<!-- \/REPO_SECTION -->/;
+const POINTER_TAIL = /<!-- [^\n]*go below this line\. -->[\s\S]*$/;
+const POINTERS = new Set(['CLAUDE.md', 'CURSOR.md', 'CODEX.md']);
+
+function keepRepoText(dest, content, current) {
+  const region = dest === 'AGENTS.md' ? REPO_SECTION : POINTERS.has(dest) ? POINTER_TAIL : null;
+  const mine = region && current.match(region);
+  return mine ? content.replace(region, () => mine[0]) : content;
+}
+
 // Deep-merge `ours` into `theirs`: objects merge key by key, anything else
 // takes the standard's value.
 function mergeJson(theirs, ours) {
@@ -222,6 +235,13 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
     } else if (mode === 'create' && exists && !force) {
       skipped.push([dest, 'already exists (use --force)']);
       continue;
+    } else if (exists && (dest === 'AGENTS.md' || POINTERS.has(dest))) {
+      const current = readFileSync(destAbs, 'utf8');
+      if (dest === 'AGENTS.md' && !REPO_SECTION.test(current) && !force) {
+        skipped.push([dest, 'no "This repository" section yet: move repo-specific text into it, or re-run with --force']);
+        continue;
+      }
+      content = keepRepoText(dest, content, current);
     }
     if (!dryRun) {
       mkdirSync(dirname(destAbs), { recursive: true });
