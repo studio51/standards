@@ -88,7 +88,7 @@ model and how a repo declares adherence.
 | [games.directory](https://github.com/games-directory/games.directory) | app-rails | v1 | active | reference implementation for the App (Rails) standard |
 | [i18n-inflections](https://github.com/games-directory/i18n-inflections) | none | — | active | |
 | [api-fortnite](https://github.com/games-directory/api-fortnite) | none | — | active | |
-| [api-play-station-network](https://github.com/games-directory/api-play-station-network) | none | — | active | |
+| [api.play-station](https://github.com/games-directory/api.play-station) | api-gem | v1 | active | PlayStation Network and Store client (psn-api gem), formerly api-play-station-network; adopted in [#4](https://github.com/games-directory/api.play-station/pull/4); the Api:: namespace, stdlib transport and typed errors are still to migrate |
 | [lazy-loader](https://github.com/games-directory/lazy-loader) | none | — | active | |
 | [api-halo](https://github.com/games-directory/api-halo) | api-gem | v1 | active | |
 | [temporalize](https://github.com/games-directory/temporalize) | none | — | active | |
