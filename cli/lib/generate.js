@@ -25,7 +25,6 @@ const MANAGED_META = [
   'CURSOR.md',
   'CODEX.md',
   'CODE_OF_CONDUCT.md',
-  'SECURITY.md',
   'CONTRIBUTING.md',
   '.editorconfig',
   '.gitattributes',
@@ -259,6 +258,14 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
       else if (o.dest === '.github/dependabot.yml')
         o.content = upgradeDependabot(readFileSync(abs, 'utf8'), o.content);
     }
+  if (mode === 'update')
+    for (const o of outputs) {
+      const abs = join(answers.targetDir, o.dest);
+      if (!o.content || !existsSync(abs)) continue;
+      // Keep the repo's own attributes, after the standard's so they win.
+      if (o.dest === '.gitattributes') o.content = mergeLines([o.content, readFileSync(abs, 'utf8')]);
+      else if (o.dest === '.editorconfig') o.content = mergeEditorconfig(readFileSync(abs, 'utf8'), o.content);
+    }
   const actions = offline ? null : await resolveActionMajors(outputs);
 
   const written = [];
@@ -283,6 +290,14 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
       }
       const holder = exists && licenseHolder(readFileSync(destAbs, 'utf8'));
       if (holder && !holder.includes(tokens.LEGAL_NAME)) {
+        skipped.push([dest, `kept: it names another copyright holder (${holder})`]);
+        continue;
+      }
+    }
+    if (dest === 'COPYRIGHT' && exists) {
+      const holders = readFileSync(destAbs, 'utf8').match(/^Copyright\b.*$/gim) || [];
+      const holder = holders.find((h) => !h.includes(tokens.LEGAL_NAME));
+      if (holder) {
         skipped.push([dest, `kept: it names another copyright holder (${holder})`]);
         continue;
       }
@@ -320,6 +335,15 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
   if (mode === 'update' && refreshAdherence(answers.targetDir, tokens, dryRun))
     written.push('README.md (standard line)');
   return { written, skipped, stacks, actions };
+}
+
+// The standard's .editorconfig plus any section the repo added for itself
+// (a `[*.swift]` block, say), kept whole.
+function mergeEditorconfig(existing, template) {
+  const sections = (text) => text.split(/\n(?=\[)/).filter((s) => s.startsWith('['));
+  const known = new Set(sections(template).map((s) => s.split('\n')[0].trim()));
+  const extra = sections(existing).filter((s) => !known.has(s.split('\n')[0].trim()));
+  return extra.length ? template.replace(/\n*$/, '\n\n') + extra.map((s) => s.trim()).join('\n\n') + '\n' : template;
 }
 
 // The copyright holder a license names, if it names one.

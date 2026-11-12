@@ -90,6 +90,20 @@ export function detectExistingYear(dir) {
   return null;
 }
 
+// The GitHub owner (user or org) the repo's origin remote points at, if any.
+export function detectRepoOwner(dir) {
+  try {
+    const url = execSync('git -C "' + dir + '" remote get-url origin', {
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+      .toString()
+      .trim();
+    return /github\.com[:/]([^/]+)\//.exec(url)?.[1] || null;
+  } catch {
+    return null;
+  }
+}
+
 // Detect repo name from git remote or directory name.
 export function detectRepoName(dir) {
   try {

@@ -84,7 +84,8 @@ export function buildTokens(config, answers) {
     VISIBILITY: answers.visibility,
     ORG: org.handle,
     ORG_URL: org.url,
-    REPO_URL: `${org.url}/${answers.name}`,
+    // The repo's own owner (games-directory, a user…), not necessarily the org's.
+    REPO_URL: `https://github.com/${answers.owner || org.handle}/${answers.name}`,
     LEGAL_NAME: org.legalName,
     AUTHOR: org.author,
     OWNER_HANDLE: org.ownerHandle || org.handle,

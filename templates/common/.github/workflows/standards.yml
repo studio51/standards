@@ -32,9 +32,11 @@ jobs:
       - name: Every repo carries the standard files
         run: |
           missing=""
-          for f in README.md LICENSE CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md; do
+          for f in README.md CHANGELOG.md CONTRIBUTING.md CODE_OF_CONDUCT.md; do
             [ -f "$f" ] || missing="$missing $f"
           done
+          # A fork may keep its upstream license as LICENSE.md or LICENSE.txt.
+          [ -f LICENSE ] || [ -f LICENSE.md ] || [ -f LICENSE.txt ] || missing="$missing LICENSE"
           if [ -n "$missing" ]; then
             echo "Missing required file(s):"
             for f in $missing; do echo "  - $f"; done

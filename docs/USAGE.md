@@ -41,6 +41,13 @@ keeping the repo's directories and settings. `.vscode/*.json` is merged like
 `.claude/settings.json`. In the README, only the sentence declaring the
 standard moves to the current version.
 
+Repo-specific lines survive in the files the standard shares: `.gitattributes`
+keeps the repo's own attributes after the standard's, `.editorconfig` keeps any
+section the repo added, and a `LICENSE` or `COPYRIGHT` naming another copyright
+holder (a fork's upstream author) is left alone. `SECURITY.md` is the repo's
+after it is scaffolded. Checks a repo adds for itself belong in a workflow of
+its own, not in the managed `standards.yml`.
+
 Repo-owned text survives: the **This repository** section of `AGENTS.md` and
 everything below the marker line in `CLAUDE.md` / `CURSOR.md` / `CODEX.md` are
 carried across unchanged. An older `AGENTS.md` without a **This repository**

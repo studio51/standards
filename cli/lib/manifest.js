@@ -6,10 +6,10 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { detectStack, detectDockerAddon, detectRepoName } from './detect.js';
+import { detectStack, detectDockerAddon, detectRepoName, detectRepoOwner } from './detect.js';
 
 export const MANIFEST = '.studio51.json';
-const KEYS = ['name', 'title', 'tagline', 'description', 'type', 'stack', 'addons', 'license', 'visibility', 'standard'];
+const KEYS = ['owner', 'name', 'title', 'tagline', 'description', 'type', 'stack', 'addons', 'license', 'visibility', 'standard'];
 
 // README label → standard slug. "App" is the App (Rails) standard's old name.
 const LABEL_TO_SLUG = {
@@ -51,7 +51,7 @@ export function inferManifest(dir) {
   const readme = read(dir, 'README.md');
   const agents = read(dir, 'AGENTS.md');
   const license = read(dir, 'LICENSE') || read(dir, 'LICENSE.md') || read(dir, 'LICENSE.txt');
-  const out = { name: detectRepoName(dir) };
+  const out = { owner: detectRepoOwner(dir) || undefined, name: detectRepoName(dir) };
 
   const title = /^#\s+(.+)$/m.exec(readme)?.[1]?.replace(/!\[[^\]]*\]\([^)]*\)/g, '').trim();
   if (title) out.title = title;

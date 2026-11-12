@@ -8,6 +8,7 @@ import { stdin, stdout } from 'node:process';
 
 import { buildTokens, stackLabel, resolveStacks, deriveStandard } from '../lib/tokens.js';
 import {
+  detectRepoOwner,
   detectStack,
   detectDockerAddon,
   detectExistingYear,
@@ -128,6 +129,7 @@ async function main() {
 
   const stacks = resolveStacks(join(TEMPLATES_DIR, 'stacks'), stack, addons);
   const answers = {
+    owner: f.owner || known.owner || detectRepoOwner(targetDir) || config.org.handle,
     name,
     title: f.title || known.title,
     tagline,
