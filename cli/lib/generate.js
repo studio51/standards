@@ -41,7 +41,7 @@ const LINE_MERGE = new Set(['.gitignore', '.dockerignore']);
 
 // JSON files the standard only adds keys to. An existing copy is merged, not
 // replaced, so a repo's own settings (permissions, hooks) survive.
-const JSON_MERGE = new Set(['.claude/settings.json']);
+const JSON_MERGE = new Set(['.claude/settings.json', '.vscode/settings.json', '.vscode/extensions.json']);
 
 // Repo-owned regions of managed files. Rewriting the file keeps the repo's own
 // text in them: the "This repository" section of AGENTS.md, and everything
@@ -56,10 +56,12 @@ function keepRepoText(dest, content, current) {
   return mine ? content.replace(region, () => mine[0]) : content;
 }
 
-// Deep-merge `ours` into `theirs`: objects merge key by key, anything else
-// takes the standard's value.
+// Deep-merge `ours` into `theirs`: objects merge key by key, arrays keep the
+// repo's entries and add the standard's, anything else takes the standard's value.
 function mergeJson(theirs, ours) {
   const isObject = (v) => v && typeof v === 'object' && !Array.isArray(v);
+  if (Array.isArray(theirs) && Array.isArray(ours))
+    return [...theirs, ...ours.filter((v) => !theirs.some((t) => JSON.stringify(t) === JSON.stringify(v)))];
   if (!isObject(theirs) || !isObject(ours)) return ours;
   const out = { ...theirs };
   for (const [key, value] of Object.entries(ours)) out[key] = mergeJson(theirs[key], value);
@@ -115,6 +117,47 @@ function mergeLines(contents) {
       }
     }
   }
+  return out.join('\n') + '\n';
+}
+
+// --- update: files the repo owns once they exist ---
+// CI workflows and dependabot.yml are scaffolded once, then belong to the repo
+// (services, extra jobs, extra directories). `update` never replaces them; it
+// only brings them up to the standard in place.
+
+const isOwnedWorkflow = (dest) =>
+  dest.startsWith('.github/workflows/') && dest !== '.github/workflows/standards.yml';
+
+// CI runs on every integration branch, since work lands there directly.
+function widenTriggers(workflow) {
+  return workflow.replace(/(\n\s*push:\s*\n\s*branches:\s*)\[\s*main\s*\]/, '$1[develop, main, master]');
+}
+
+// Give every ecosystem block the standard's commit prefix and grouping, keep
+// everything else the repo set (directories, schedules, limits), and add the
+// ecosystems the standard expects but the repo lacks.
+function upgradeDependabot(existing, template) {
+  const lines = existing.replace(/\s+$/, '').split('\n');
+  const isStart = (l) => /^\s*- package-ecosystem:/.test(l);
+  const starts = lines.flatMap((l, i) => (isStart(l) ? [i] : []));
+  if (!starts.length) return template;
+  const listIndent = /^(\s*)-/.exec(lines[starts[0]])[1];
+  const key = listIndent + '  ';
+  const out = lines.slice(0, starts[0]);
+  const ecosystems = new Set();
+  starts.forEach((start, n) => {
+    const block = lines.slice(start, starts[n + 1] ?? lines.length);
+    while (block.length > 1 && block[block.length - 1].trim() === '') block.pop();
+    const eco = /package-ecosystem:\s*["']?([\w-]+)/.exec(block[0])[1];
+    ecosystems.add(eco);
+    const has = (k) => block.some((l) => l.startsWith(`${key}${k}:`));
+    if (!has('commit-message')) block.push(`${key}commit-message:`, `${key}  prefix: chore`, `${key}  include: scope`);
+    if (!has('groups')) block.push(`${key}groups:`, `${key}  ${eco}:`, `${key}    patterns: ["*"]`);
+    out.push(...block);
+  });
+  const re = /( {2}- package-ecosystem:\s*"?([\w-]+)"?[\s\S]*?)(?=\n {2}- package-ecosystem:|\s*$)/g;
+  for (const [, block, eco] of template.matchAll(re))
+    if (!ecosystems.has(eco)) out.push(...block.split('\n').map((l) => l.replace(/^ {2}/, listIndent)));
   return out.join('\n') + '\n';
 }
 
@@ -208,6 +251,14 @@ function resolveOutputs({ templatesDir, stacks, tokens }) {
 export async function generate({ templatesDir, tokens, answers, mode, force, dryRun, offline }) {
   const stacks = resolveStacks(join(templatesDir, 'stacks'), answers.stack, answers.addons || []);
   const outputs = resolveOutputs({ templatesDir, stacks, tokens });
+  if (mode === 'update')
+    for (const o of outputs) {
+      const abs = join(answers.targetDir, o.dest);
+      if (!o.content || !existsSync(abs)) continue;
+      if (isOwnedWorkflow(o.dest)) o.content = widenTriggers(readFileSync(abs, 'utf8'));
+      else if (o.dest === '.github/dependabot.yml')
+        o.content = upgradeDependabot(readFileSync(abs, 'utf8'), o.content);
+    }
   const actions = offline ? null : await resolveActionMajors(outputs);
 
   const written = [];
@@ -250,7 +301,26 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
     }
     written.push(dest);
   }
+  if (mode === 'update' && refreshAdherence(answers.targetDir, tokens, dryRun))
+    written.push('README.md (standard line)');
   return { written, skipped, stacks, actions };
+}
+
+// The README is project content, except for the sentence declaring which
+// standard the repo adheres to; `update` moves that one to the current version.
+const ADHERENCE = /\[Studio51\s+Solutions\s+[^\]]+?\s+Standard\s+v\d+\]\([^)]*\)/;
+function refreshAdherence(targetDir, tokens, dryRun) {
+  const path = join(targetDir, 'README.md');
+  if (!existsSync(path)) return false;
+  const readme = readFileSync(path, 'utf8');
+  const { STANDARD_LABEL: label, STANDARD_SLUG: slug, STANDARD_VERSION: version } = tokens;
+  const link =
+    `[Studio51 Solutions ${label} Standard ${version}]` +
+    `(https://github.com/studio51/standards/blob/main/standards/${slug}/${version}/STANDARD.md)`;
+  const next = readme.replace(ADHERENCE, () => link);
+  if (next === readme) return false;
+  if (!dryRun) writeFileSync(path, next);
+  return true;
 }
 
 // Point git at the scaffolded hooks (`.githooks/`) unless the repo already uses

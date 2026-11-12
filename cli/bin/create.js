@@ -15,6 +15,7 @@ import {
 } from '../lib/detect.js';
 import { generate, enableHooks } from '../lib/generate.js';
 import { resolveRepo, applySettings } from '../lib/settings.js';
+import { MANIFEST, readManifest, inferManifest, writeManifest } from '../lib/manifest.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, '..', '..');
@@ -81,9 +82,13 @@ async function main() {
     return;
   }
 
-  // --- detection ---
-  const detectedStack = detectStack(targetDir) || config.defaults.stack;
-  const detectedName = detectRepoName(targetDir);
+  // --- what the repo already chose ---
+  // Flags win, then the repo's .studio51.json (or, before it has one, what can
+  // be read from its README, AGENTS.md and LICENSE), then detection and the
+  // org defaults.
+  const known = readManifest(targetDir) || inferManifest(targetDir);
+  const detectedStack = known.stack || detectStack(targetDir) || config.defaults.stack;
+  const detectedName = known.name || detectRepoName(targetDir);
   const existingYear = detectExistingYear(targetDir);
   const dockerDetected = detectDockerAddon(targetDir);
 
@@ -98,20 +103,24 @@ async function main() {
   };
 
   const name = f.name || (await ask('Project name', detectedName));
-  const type = f.type || (await ask('Type [library|app|plugin|tool|service]', 'app'));
+  const type = f.type || (await ask('Type [library|app|plugin|tool|service]', known.type || 'app'));
   const stack = f.stack || (await ask('Stack', detectedStack));
   const license =
-    f.license || (await ask('License [MIT|Apache-2.0|Proprietary]', config.defaults.license));
+    f.license || (await ask('License [MIT|Apache-2.0|Proprietary]', known.license || config.defaults.license));
   const visibility =
-    f.visibility || (await ask('Visibility [public|private]', config.defaults.visibility));
+    f.visibility || (await ask('Visibility [public|private]', known.visibility || config.defaults.visibility));
   const standard =
     f.standard ||
-    (await ask('Standard [common|api-gem|app-rails|app-nextjs|app-swift|tool]', deriveStandard({ name, type, stack })));
-  const tagline = f.tagline || (await ask('Tagline', ''));
-  const description = f.description || (await ask('Description', tagline));
+    (await ask(
+      'Standard [common|api-gem|app-rails|app-nextjs|app-swift|tool]',
+      known.standard || deriveStandard({ name, type, stack })
+    ));
+  const tagline = f.tagline || (await ask('Tagline', known.tagline || ''));
+  const description = f.description || (await ask('Description', known.description || tagline));
 
-  const addons = (f.addons ? f.addons.split(',') : [])
-    .concat(dockerDetected && !f.addons ? ['docker'] : [])
+  const addons = (
+    f.addons ? f.addons.split(',') : known.addons || (dockerDetected ? ['docker'] : [])
+  )
     .map((s) => s.trim())
     .filter(Boolean);
 
@@ -120,7 +129,7 @@ async function main() {
   const stacks = resolveStacks(join(TEMPLATES_DIR, 'stacks'), stack, addons);
   const answers = {
     name,
-    title: f.title,
+    title: f.title || known.title,
     tagline,
     description,
     type,
@@ -160,6 +169,10 @@ async function main() {
       console.log('  ! could not reach GitHub, kept the templates\' action versions');
     for (const b of bumps) console.log(`  ↑ ${b.action} v${b.from} → v${b.to} (latest major)`);
   }
+
+  if (!f['dry-run'])
+    writeManifest(targetDir, { ...answers, title: tokens.PROJECT_TITLE, standard: tokens.STANDARD_SLUG });
+  result.written.push(MANIFEST);
 
   const hooks = enableHooks(targetDir, f['dry-run']);
   if (hooks) console.log(`  ${hooks}`);

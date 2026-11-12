@@ -67,6 +67,9 @@ can open any repo and know exactly where things live:
   touches `README.md`, `docs/`, or `CHANGELOG.md`; inside managed files it keeps
   the repo-owned regions (the **This repository** section, the agent pointer
   tails), so project prose is never lost.
+- **A repo's choices are recorded, not guessed.** `.studio51.json` holds the
+  answers a repo was scaffolded with, so `update` can never relicense a repo or
+  move it to another standard.
 - **Workflows start current.** The CLI raises every action pin to its latest
   major as it writes, so the templates' own pins only matter offline.
 - **Settings are applied, not just declared.** `settings` sets the repository

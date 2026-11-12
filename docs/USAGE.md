@@ -27,6 +27,20 @@ pointer files, `.github/`, `.githooks/commit-msg`, `.claude/settings.json`,
 latest standard. It never touches project content like `README.md`, `docs/`, or
 `CHANGELOG.md`.
 
+It renders them from the repo's own choices, recorded in `.studio51.json`
+(name, title, type, stack, add-ons, license, visibility, standard), which
+`create` writes and `update` reads. A repo scaffolded before the manifest
+existed gets one inferred from its README (the standard it declares),
+`AGENTS.md` (type, description), `LICENSE` and files. Flags still win.
+
+CI workflows and `.github/dependabot.yml` belong to the repo once they exist:
+`update` never replaces them. It raises their action pins to the latest
+majors, widens a `main`-only push trigger to `develop`, `main` and `master`, and
+gives each Dependabot ecosystem the standard's grouping and commit prefix,
+keeping the repo's directories and settings. `.vscode/*.json` is merged like
+`.claude/settings.json`. In the README, only the sentence declaring the
+standard moves to the current version.
+
 Repo-owned text survives: the **This repository** section of `AGENTS.md` and
 everything below the marker line in `CLAUDE.md` / `CURSOR.md` / `CODEX.md` are
 carried across unchanged. An older `AGENTS.md` without a **This repository**
