@@ -13,7 +13,7 @@ import {
   detectExistingYear,
   detectRepoName,
 } from '../lib/detect.js';
-import { generate } from '../lib/generate.js';
+import { generate, enableHooks } from '../lib/generate.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(HERE, '..', '..');
@@ -147,6 +147,9 @@ async function main() {
       console.log('  ! could not reach GitHub, kept the templates\' action versions');
     for (const b of bumps) console.log(`  ↑ ${b.action} v${b.from} → v${b.to} (latest major)`);
   }
+
+  const hooks = enableHooks(targetDir, f['dry-run']);
+  if (hooks) console.log(`  ${hooks}`);
 
   const tag = f['dry-run'] ? '(dry-run) would write' : 'wrote';
   for (const dest of result.written) console.log(`  ✓ ${tag} ${dest}`);

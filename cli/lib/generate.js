@@ -6,7 +6,9 @@ import {
   mkdirSync,
   readdirSync,
   statSync,
+  chmodSync,
 } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join, dirname, relative } from 'node:path';
 import { render } from './render.js';
 import { resolveStacks } from './tokens.js';
@@ -29,11 +31,27 @@ const MANAGED_META = [
   '.gitattributes',
   '.vscode/extensions.json',
   '.vscode/settings.json',
+  '.githooks/commit-msg',
+  '.claude/settings.json',
 ];
 const isManagedMeta = (dest) => MANAGED_META.includes(dest) || dest.startsWith('.github/');
 
 // When more than one stack contributes the same file, how do we combine them?
 const LINE_MERGE = new Set(['.gitignore', '.dockerignore']);
+
+// JSON files the standard only adds keys to. An existing copy is merged, not
+// replaced, so a repo's own settings (permissions, hooks) survive.
+const JSON_MERGE = new Set(['.claude/settings.json']);
+
+// Deep-merge `ours` into `theirs`: objects merge key by key, anything else
+// takes the standard's value.
+function mergeJson(theirs, ours) {
+  const isObject = (v) => v && typeof v === 'object' && !Array.isArray(v);
+  if (!isObject(theirs) || !isObject(ours)) return ours;
+  const out = { ...theirs };
+  for (const [key, value] of Object.entries(ours)) out[key] = mergeJson(theirs[key], value);
+  return out;
+}
 
 function walk(dir, base = dir, out = []) {
   if (!existsSync(dir)) return out;
@@ -142,10 +160,11 @@ function resolveOutputs({ templatesDir, stacks, tokens }) {
     }
     if (sources.length === 1) {
       const { src } = sources[0];
+      const executable = (statSync(src).mode & 0o111) !== 0;
       outputs.push(
         BINARY.test(src)
-          ? { dest, buffer: readFileSync(src) }
-          : { dest, content: readText(src, tokens) }
+          ? { dest, buffer: readFileSync(src), executable }
+          : { dest, content: readText(src, tokens), executable }
       );
       continue;
     }
@@ -180,7 +199,7 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
 
   const written = [];
   const skipped = [];
-  for (const { dest, content, buffer } of outputs) {
+  for (let { dest, content, buffer, executable } of outputs) {
     const destAbs = join(answers.targetDir, dest);
     const exists = existsSync(destAbs);
 
@@ -188,15 +207,54 @@ export async function generate({ templatesDir, tokens, answers, mode, force, dry
       skipped.push([dest, 'project content (update skips it)']);
       continue;
     }
-    if (mode === 'create' && exists && !force) {
+    if (JSON_MERGE.has(dest) && exists) {
+      const current = readFileSync(destAbs, 'utf8');
+      try {
+        content = JSON.stringify(mergeJson(JSON.parse(current), JSON.parse(content)), null, 2) + '\n';
+      } catch {
+        skipped.push([dest, 'existing file is not valid JSON, fix it and re-run']);
+        continue;
+      }
+      if (content === current) {
+        skipped.push([dest, 'already up to date']);
+        continue;
+      }
+    } else if (mode === 'create' && exists && !force) {
       skipped.push([dest, 'already exists (use --force)']);
       continue;
     }
     if (!dryRun) {
       mkdirSync(dirname(destAbs), { recursive: true });
       writeFileSync(destAbs, buffer ?? content);
+      if (executable) chmodSync(destAbs, 0o755);
     }
     written.push(dest);
   }
   return { written, skipped, stacks, actions };
+}
+
+// Point git at the scaffolded hooks (`.githooks/`) unless the repo already uses
+// another hooks directory. Returns a one-line status, or null outside a repo.
+export function enableHooks(targetDir, dryRun) {
+  const git = (...args) =>
+    execFileSync('git', ['-C', targetDir, ...args], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+  try {
+    git('rev-parse', '--git-dir');
+  } catch {
+    return null;
+  }
+  let current = '';
+  try {
+    current = git('config', '--get', 'core.hooksPath');
+  } catch {
+    // unset
+  }
+  if (current === '.githooks') return 'git hooks already enabled (core.hooksPath=.githooks)';
+  if (current)
+    return `core.hooksPath is ${current}; call .githooks/commit-msg from there to enforce the commit rules`;
+  if (!dryRun) git('config', 'core.hooksPath', '.githooks');
+  return `${dryRun ? 'would enable' : 'enabled'} git hooks (core.hooksPath=.githooks)`;
 }
