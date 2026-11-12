@@ -1,7 +1,7 @@
 # Studio51 Solutions Tool Standard · v1 (draft)
 
 > What a Studio51 Solutions internal tool / CLI / one-purpose utility looks
-> like. Extends the [Common Standard v1](../../common/v1/STANDARD.md); it never
+> like. Extends the [Common Standard v2](../../common/v2/STANDARD.md); it never
 > relaxes it.
 >
 > **Status: draft.** This standard is a stub awaiting a reference
@@ -10,7 +10,7 @@
 
 ## Inherits
 
-- Common Standard v1: skeleton, Navigation README, docs suite, code
+- Common Standard v2: skeleton, Navigation README, docs suite, code
   documentation, agent files, workflow conventions, runtime currency policy.
 
 ## To be specified in a future revision
